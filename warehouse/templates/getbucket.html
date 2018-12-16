@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bucket</title>
+
+
+</head>
+<body>
+<table class="table">
+    <thead>
+    <h1>{{supplier.name}}</h1>
+    <tr>
+        <th>Artikel</th>
+        <th>Bestelleinheiten</th>
+        <th>Preis pro Einheit</th>
+        <th>Anzahl</th>
+        <th>Positionspreis</th>
+        {% for detail in details %}
+        <tr>
+            <td>
+                {{detail.article.label}}
+            </td>
+            <td>
+                {{detail.order_min}}
+            </td>
+            <td>
+                {{detail.price}}
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        {% endfor %}
+</body>
+</html>
