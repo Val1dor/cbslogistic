@@ -44,7 +44,7 @@ class MatrixListView(generic.ListView):
         return context
 
     def post(self, request):
-        if request.POST['action']:# == 'sub':
+        if request.POST['sub']:
             try:
                 sub = Detail.objects.get(id=request.POST['sub'])
                 sub.delete()
@@ -52,12 +52,12 @@ class MatrixListView(generic.ListView):
                 raise Http404("Gibts nicht")
             return HttpResponseRedirect(reverse('getmatrix'))
 
-        elif request.POST['search']:# == 'search':
+        elif request.POST['search']:
             try:
                 search_term = Supplier.objects.get(name=request.POST['search'])
-            except Detail.DoesNotExist:
+            except Supplier.DoesNotExist:
                 raise Http404("Gibts nicht")
-            return render(request, 'getmatrix', {'search_term': searc_term})
+            return render(request, 'getmatrix', {'search_term': search_term})
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'
