@@ -38,11 +38,12 @@
         </td>
         <td>
             <div class="search">
-                <form action="/getmatrix/" method="get">
-                    <input type="text" placeholder="Search Supplier..">
-                    <button type="submit" class="btn btn-success" name="search" value="search">
-                        <span class="glyphicon glyphicon-plus"></span>{{detail.supplier}}
-                    </button>
+                <form action="/getmatrix/" method="post">
+                    {%csrf_token%}
+                        <input type="text" placeholder="Search Supplier..">
+                            <button type="submit" class="btn btn-success" name="search" value="search">
+                                <span class="glyphicon glyphicon-plus"></span>{{detail.supplier}}
+                            </button>
                 </form>
             <div>
         </td>

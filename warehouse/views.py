@@ -23,19 +23,15 @@ class ArticleListView(generic.ListView):
         return context
 
     def post(self, request):
-        try:
-            detail = Detail.objects.get(id=request.POST['detail'])
-            basket = Orderbasket()
-            basket.detail=(detail)
-            basket.save()
-        except Detail.DoesNotExist:
-            raise Http404("Gibts nicht")
-        return HttpResponseRedirect(reverse('getstatus'))
-
-
-
-
-
+        if request.POST['detail']:# == 'detail':
+            try:
+                detail = Detail.objects.get(id=request.POST['detail'])
+                basket = Orderbasket()
+                basket.detail=(detail)
+                basket.save()
+            except Detail.DoesNotExist:
+                raise Http404("Gibts nicht")
+            return HttpResponseRedirect(reverse('getstatus'))
 
 class MatrixListView(generic.ListView):
     template_name = 'getmatrix.html'
@@ -48,12 +44,20 @@ class MatrixListView(generic.ListView):
         return context
 
     def post(self, request):
-        try:
-            sub = Detail.objects.get(id=request.POST['sub'])
-            sub.delete()
-        except Detail.DoesNotExist:
-            raise Http404("Gibts nicht")
-        return HttpResponseRedirect(reverse('getmatrix'))
+        if request.POST['action']:# == 'sub':
+            try:
+                sub = Detail.objects.get(id=request.POST['sub'])
+                sub.delete()
+            except Detail.DoesNotExist:
+                raise Http404("Gibts nicht")
+            return HttpResponseRedirect(reverse('getmatrix'))
+
+        elif request.POST['search']:# == 'search':
+            try:
+                search_term = Supplier.objects.get(name=request.POST['search'])
+            except Detail.DoesNotExist:
+                raise Http404("Gibts nicht")
+            return render(request, 'getmatrix', {'search_term': searc_term})
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'
