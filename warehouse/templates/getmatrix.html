@@ -25,11 +25,11 @@
         <td>{{article.label}}</td>
         <td>{{article.sensor_no}}</td>
         <td>
-            <form action="/getstatus/" method="post">
+            <form action="/getmatrix/" method="post">
                 {%csrf_token%}
                     {% for detail in details %}
                         {% if detail.article == article %}
-                            <button type="submit" class="btn btn-danger" name="detail" value="{{detail.id}}">
+                            <button type="submit" class="btn btn-danger" name="sub" value="{{detail.id}}">
                                 <span class="glyphicon glyphicon-minus"></span> {{detail.supplier}}
                             </button>
                         {% endif %}
@@ -38,9 +38,9 @@
         </td>
         <td>
             <div class="search">
-                <input type="text" placeholder="Search Supplier..">
-                <form action="/getmatrix/" method="post">
-                    <button type="submit" class="btn btn-success" name="add" value="{{detail.id}}">
+                <form action="/getmatrix/" method="get">
+                    <input type="text" placeholder="Search Supplier..">
+                    <button type="submit" class="btn btn-success" name="search" value="search">
                         <span class="glyphicon glyphicon-plus"></span>{{detail.supplier}}
                     </button>
                 </form>

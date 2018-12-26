@@ -36,14 +36,14 @@
         <td>
 
             <form action="/getstatus/" method="post">
-                {%csrf_token%}
-        {% for detail in details %}
-            {% if detail.article == article %}
-                <button type="submit" class="btn btn-success" name="detail" value="{{detail.id}}">
-                    <span class="glyphicon glyphicon-plus"></span> {{detail.supplier}}
-                </button>
-            {% endif %}
-        {% endfor %}
+            {%csrf_token%}
+            {% for detail in details %}
+                {% if detail.article == article %}
+                    <button type="submit" class="btn btn-success" name="detail" value="{{detail.id}}">
+                        <span class="glyphicon glyphicon-plus"></span> {{detail.supplier}}
+                    </button>
+                {% endif %}
+            {% endfor %}
             </form>
         </td>
     </tr>

@@ -21,10 +21,16 @@ from django.contrib import admin
 from warehouse.views import getstatus
 from warehouse.views import getbucket
 from warehouse.views import getmatrix
+from warehouse.views import ArticleListView
+from warehouse.views import MatrixListView
+from warehouse.views import BucketListView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('getstatus/', getstatus, name='getstatus'),
-    path('getmatrix/', getmatrix, name='getmatrix'),
-    path('getbucket/', getbucket, name='getbucket'),
+    #path('getstatus/', getstatus, name='getstatus'),
+    path('getstatus/', ArticleListView.as_view(), name='getstatus'),
+    path('getmatrix/', MatrixListView.as_view(), name='getmatrix'),
+    #path('getmatrix/', getmatrix, name='getmatrix'),
+    #path('getbucket/', getbucket, name='getbucket'),
+    path('getbucket/', BucketListView.as_view(), name='getbucket'),
 ]

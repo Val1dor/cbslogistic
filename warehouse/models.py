@@ -14,7 +14,6 @@ class Suppliercontract(models.Model):
     )
     mail = models.EmailField()
 
-
     def __str__(self):
         return self.name
 

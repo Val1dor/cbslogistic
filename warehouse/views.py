@@ -6,6 +6,97 @@ from django.shortcuts import redirect
 from .models import Article, Supplier, Detail, Orderbasket, Suppliercontract
 from django.shortcuts import render
 from datetime import datetime
+from django.views import generic
+
+
+class ArticleListView(generic.ListView):
+    template_name = 'getstatus.html'
+    context_object_name = 'all_articles'
+    queryset = Article.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleListView, self).get_context_data(**kwargs)
+        context['empty_articles'] = Article.objects.filter(sensor_status=True)
+        context['all_supplier'] = Supplier.objects.all()
+        context['details'] = Detail.objects.filter(article__sensor_status=True)
+        context['baskets'] = Orderbasket.objects.order_by('detail__supplier')
+        return context
+
+    def post(self, request):
+        try:
+            detail = Detail.objects.get(id=request.POST['detail'])
+            basket = Orderbasket()
+            basket.detail=(detail)
+            basket.save()
+        except Detail.DoesNotExist:
+            raise Http404("Gibts nicht")
+        return HttpResponseRedirect(reverse('getstatus'))
+
+
+
+
+
+
+class MatrixListView(generic.ListView):
+    template_name = 'getmatrix.html'
+    context_object_name = 'articles'
+    queryset = Article.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(MatrixListView, self).get_context_data(**kwargs)
+        context['details'] = Detail.objects.all()
+        return context
+
+    def post(self, request):
+        try:
+            sub = Detail.objects.get(id=request.POST['sub'])
+            sub.delete()
+        except Detail.DoesNotExist:
+            raise Http404("Gibts nicht")
+        return HttpResponseRedirect(reverse('getmatrix'))
+
+class BucketListView(generic.ListView):
+    template_name = 'getbucket.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BucketListView, self).get_context_data(**kwargs)
+        context['details'] = Detail.objects.filter(supplier__id=request.POST['getbucket'])
+        context['supplier'] = Supplier.objects.get(id=request.POST['getbucket'])
+        return context
+
+    def post(self, request, *args, **kwargs):
+        details = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
+        return render(request, 'getbucket.html', {'details': details})
+
+
+
+
+
+
+
+
+
+def getbucket(request):
+    #if request.method == 'POST':
+        try:
+            supplier = Supplier.objects.get(id=request.POST['getbucket'])
+            details = Detail.objects.filter(supplier__id=request.POST['getbucket'])
+
+        except Supplier.DoesNotExist:
+            raise Http404("Gibts nicht")
+        return render(request, 'getbucket.html',
+                      {'supplier': supplier,
+                       'details': details})
+
+def getmatrix(request):
+    try:
+        articles = Article.objects.all()
+        details = Detail.objects.all()
+    except Article.DoesNotExist:
+        raise Http404("Gibts nicht")
+    return render(request, 'getmatrix.html',
+              {'articles': articles,
+               'details': details})
 
 
 def getstatus(request):
@@ -35,26 +126,3 @@ def getstatus(request):
                    'all_supplier': all_supplier,
                    'details': details,
                    'baskets': baskets})
-
-
-def getbucket(request):
-    if request.method == 'POST':
-        try:
-            supplier = Supplier.objects.get(id=request.POST['getbucket'])
-            details = Detail.objects.filter(supplier__id=request.POST['getbucket'])
-
-        except Article.DoesNotExist:
-            raise Http404("Gibts nicht")
-        return render(request, 'getbucket.html',
-                      {'supplier': supplier,
-                       'details': details})
-
-def getmatrix(request):
-    try:
-        articles = Article.objects.all()
-        details = Detail.objects.all()
-    except Article.DoesNotExist:
-        raise Http404("Gibts nicht")
-    return render(request, 'getmatrix.html',
-              {'articles': articles,
-               'details': details})
