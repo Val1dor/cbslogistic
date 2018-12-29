@@ -43,7 +43,7 @@ class MatrixListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(MatrixListView, self).get_context_data(**kwargs)
         context['details'] = Detail.objects.all()
-        context['form'] = SearchForm()
+        context['formx'] = SearchForm()
         return context
 
     def post(self, request):
@@ -53,27 +53,29 @@ class MatrixListView(generic.ListView):
                 sub.delete()
             except Detail.DoesNotExist:
                 raise Http404("Gibts nicht1")
-            return HttpResponseRedirect(reverse('getmatrix.html'))
+            return HttpResponseRedirect(reverse('getmatrix'))
 
         elif 'search_term' in request.POST:
-            #try:
             form = SearchForm(request.POST)
             if form.is_valid():
-                formx = form.cleaned_data
-                context2 = self.get_context_data.context()
-                #context['formx']=formx
+                searchfield = form.cleaned_data.get('search_term')
+                formx = SearchForm()
+                matches = Supplier.objects.get(name__icontains=searchfield)
+                details = Detail.objects.all()
+                articles = Article.objects.all()
 
-                return render(request, 'getmatrix.html', {'formx': formx})
+
+                context = {'details': details,
+                          'searchfield': searchfield,
+                          'articles': articles,
+                           'matches': matches,
+                           'formx': formx}
+                return render(request, self.template_name, context)
             else:
                 raise Http404("Gibts nicht2")
-                #request_term = ContactForm(request.POST) #Supplier.objects.get(name=request.POST['search'])
-                #search_term = request_term.get('search_field')
-               # context = self.get_context_data()
-                #context['search_term']= request_term.get('search')
-            #except Supplier.DoesNotExist:
-             #   raise Http404("Gibts nicht2")
         else:
             raise Http404("Einfach da")
+
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'

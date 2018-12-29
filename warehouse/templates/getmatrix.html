@@ -15,7 +15,8 @@
             <th>Artikel</th>
             <th>Aktuelle Liferanten</th>
             <th>aktuelle Lieferanten</th>
-            <th>add {{formx.search_term}}</th>
+            <th>Suchfeld</th>
+            <th>add</th>
         </tr>
     </thead>
     <tbody>
@@ -51,11 +52,21 @@
                             type="submit"
                             name ="search_button"> Search
                     </button>-->
-                {% csrf_token %}
-                {{form}}
-                <input type="submit" value="Submit">
+                {%csrf_token%}
+                    {{formx.search_term}}
+            </form>
+        </td>
+        <td>
+            <form action="/getmatrix/" method="post">
+                {%csrf_token%}
+
+                    lol
+                            <button type="submit" class="btn btn-success" name="add" value="{{detail.id}}">
+                                <span class="glyphicon glyphicon-plus"></span> {{matches}}
+                            </button>
 
             </form>
+
         </td>
     </tr>
     {% endfor %}
