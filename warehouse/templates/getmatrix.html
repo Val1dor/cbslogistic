@@ -11,6 +11,34 @@
 <body>
 <table class="table">
     <thead>
+            <td>
+            <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
+                <!--{%csrf_token%}
+                <input
+                        {{form}}
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        name="search_field">
+                    <button
+                            class="btn btn-outline-success my-2 my-sm-0"
+                            type="submit"
+                            name ="search_button"> Search
+                    </button>-->
+                {%csrf_token%}
+                    Article: {{formy.article}}
+                <br>
+                    Supp: {{formy.supplier}}
+                <br>
+                <button type="submit" class="btn btn-success" name="AddArticleToSupp">
+                    <span class="glyphicon glyphicon-plus"></span> {{matches}}
+                </button>
+            </form>
+        </td>
+
+
+
         <tr>
             <th>Artikel</th>
             <th>Aktuelle Liferanten</th>
@@ -37,34 +65,14 @@
                     {% endfor %}
             </form>
         </td>
-        <td>
-            <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
-                <!--{%csrf_token%}
-                <input
-                        {{form}}
-                        class="form-control mr-sm-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                        name="search_field">
-                    <button
-                            class="btn btn-outline-success my-2 my-sm-0"
-                            type="submit"
-                            name ="search_button"> Search
-                    </button>-->
-                {%csrf_token%}
-                    {{formx.search_term}}
-            </form>
-        </td>
+
         <td>
             <form action="/getmatrix/" method="post">
                 {%csrf_token%}
 
-                    lol
-                            <button type="submit" class="btn btn-success" name="add" value="{{detail.id}}">
+                            <button type="submit" class="btn btn-success" name="add" value="{{matches.id}}">
                                 <span class="glyphicon glyphicon-plus"></span> {{matches}}
                             </button>
-
             </form>
 
         </td>

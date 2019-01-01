@@ -7,7 +7,7 @@ from .models import Article, Supplier, Detail, Orderbasket, Suppliercontract
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm
+from .forms import SearchForm, AddArticleToSuppForm
 
 
 
@@ -44,6 +44,7 @@ class MatrixListView(generic.ListView):
         context = super(MatrixListView, self).get_context_data(**kwargs)
         context['details'] = Detail.objects.all()
         context['formx'] = SearchForm()
+        context['formy'] = AddArticleToSuppForm()
         return context
 
     def post(self, request):
@@ -64,7 +65,6 @@ class MatrixListView(generic.ListView):
                 details = Detail.objects.all()
                 articles = Article.objects.all()
 
-
                 context = {'details': details,
                           'searchfield': searchfield,
                           'articles': articles,
@@ -73,9 +73,21 @@ class MatrixListView(generic.ListView):
                 return render(request, self.template_name, context)
             else:
                 raise Http404("Gibts nicht2")
-        else:
-            raise Http404("Einfach da")
 
+        elif 'AddArticleToSupp' in request.POST:
+            form = AddArticleToSuppForm(request.POST)
+            if form.is_valid():
+                form.save()
+                formy = AddArticleToSuppForm()
+                details = Detail.objects.all()
+                articles = Article.objects.all()
+
+                context = {'details': details,
+                           'articles': articles,
+                           'formy': formy}
+                return render(request, self.template_name, context)
+            else:
+                raise Http404("Gibts nicht2")
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'

@@ -13,12 +13,13 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="1" />
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.8" value="2" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -35,14 +36,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="3905" />
-          <entry key="py" value="8778" />
+          <entry key="html" value="4120" />
+          <entry key="py" value="9672" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="3905" />
-          <entry key="Python" value="8778" />
+          <entry key="HTML" value="4120" />
+          <entry key="Python" value="9672" />
         </counts>
       </usages-collector>
     </session>
@@ -52,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cbslogistic/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
+            <state relative-caret-position="440">
               <caret line="31" column="47" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="47" />
               <folding>
                 <element signature="e#636#668#0" expanded="true" />
@@ -61,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/warehouse/templates/getmatrix.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+            <state relative-caret-position="660">
+              <caret line="33" column="85" selection-start-line="33" selection-start-column="85" selection-end-line="33" selection-end-column="85" />
             </state>
           </provider>
         </entry>
@@ -73,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/warehouse/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+            <state relative-caret-position="640">
+              <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
                 <marker date="1545829907944" expanded="true" signature="169:487" ph="..." />
@@ -87,25 +88,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/warehouse/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
+            <state relative-caret-position="482">
+              <caret line="85" column="48" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1546106223662" expanded="true" signature="433:3565" ph="..." />
-                <marker date="1546106223662" expanded="true" signature="1785:1786" ph="..." />
-                <marker date="1546106223662" expanded="true" signature="3593:3594" ph="..." />
-                <marker date="1546106223662" expanded="true" signature="3593:3598" ph="..." />
-                <marker date="1546106223662" expanded="true" signature="4041:4046" ph="..." />
+                <marker date="1546342187654" expanded="true" signature="455:4160" ph="..." />
+                <marker date="1546342187654" expanded="true" signature="1857:1858" ph="..." />
+                <marker date="1546342187654" expanded="true" signature="4188:4189" ph="..." />
+                <marker date="1546342187654" expanded="true" signature="4188:4193" ph="..." />
+                <marker date="1546342187654" expanded="true" signature="4636:4641" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/warehouse/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="3" column="52" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
+            <state relative-caret-position="340">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+                <marker date="1546344163554" expanded="true" signature="276:281" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,7 +127,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/warehouse/templates/getbucket.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
+            <state relative-caret-position="620">
               <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
             </state>
           </provider>
@@ -136,7 +141,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cbslogistic/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
+            <state relative-caret-position="780">
               <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
             </state>
           </provider>
@@ -159,10 +164,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>redirect</find>
       <find>context</find>
       <find>term</find>
       <find>formx</find>
+      <find>input</find>
+      <find>queryset=</find>
+      <find>redirect</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,16 +189,16 @@
         <option value="$PROJECT_DIR$/warehouse/templates/getbucket.html" />
         <option value="$PROJECT_DIR$/warehouse/templates/getstatus.html" />
         <option value="$PROJECT_DIR$/warehouse/models.py" />
-        <option value="$PROJECT_DIR$/warehouse/forms.py" />
-        <option value="$PROJECT_DIR$/warehouse/views.py" />
         <option value="$PROJECT_DIR$/warehouse/templates/getmatrix.html" />
+        <option value="$PROJECT_DIR$/warehouse/views.py" />
+        <option value="$PROJECT_DIR$/warehouse/forms.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="width" value="1929" />
-    <option name="height" value="1089" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-10" />
+    <option name="width" value="1930" />
+    <option name="height" value="1090" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -260,7 +267,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13020489" />
@@ -307,39 +314,31 @@
     <entry file="file://$PROJECT_DIR$/warehouse/tests.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cbslogistic/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cbslogistic/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/warehouse/templates/getbucket.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/warehouse/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="52" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cbslogistic/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
+        <state relative-caret-position="440">
           <caret line="31" column="47" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="47" />
           <folding>
             <element signature="e#636#668#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/warehouse/templates/getmatrix.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="33" column="85" selection-start-line="33" selection-start-column="85" selection-end-line="33" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/warehouse/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <marker date="1545829907944" expanded="true" signature="169:487" ph="..." />
+            <marker date="1545829907944" expanded="true" signature="2087:2096" ph="..." />
           </folding>
         </state>
       </provider>
@@ -351,37 +350,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/warehouse/models.py">
+    <entry file="file://$PROJECT_DIR$/warehouse/templates/getbucket.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <marker date="1545829907944" expanded="true" signature="169:487" ph="..." />
-            <marker date="1545829907944" expanded="true" signature="2087:2096" ph="..." />
-          </folding>
+        <state relative-caret-position="620">
+          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cbslogistic/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cbslogistic/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/warehouse/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
+        <state relative-caret-position="482">
+          <caret line="85" column="48" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1546106223662" expanded="true" signature="433:3565" ph="..." />
-            <marker date="1546106223662" expanded="true" signature="1785:1786" ph="..." />
-            <marker date="1546106223662" expanded="true" signature="3593:3594" ph="..." />
-            <marker date="1546106223662" expanded="true" signature="3593:3598" ph="..." />
-            <marker date="1546106223662" expanded="true" signature="4041:4046" ph="..." />
+            <marker date="1546342187654" expanded="true" signature="455:4160" ph="..." />
+            <marker date="1546342187654" expanded="true" signature="1857:1858" ph="..." />
+            <marker date="1546342187654" expanded="true" signature="4188:4189" ph="..." />
+            <marker date="1546342187654" expanded="true" signature="4188:4193" ph="..." />
+            <marker date="1546342187654" expanded="true" signature="4636:4641" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/warehouse/templates/getmatrix.html">
+    <entry file="file://$PROJECT_DIR$/warehouse/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+        <state relative-caret-position="340">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+            <marker date="1546344163554" expanded="true" signature="276:281" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
