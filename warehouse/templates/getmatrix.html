@@ -13,24 +13,16 @@
     <thead>
             <td>
             <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
-                <!--{%csrf_token%}
-                <input
-                        {{form}}
-                        class="form-control mr-sm-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                        name="search_field">
-                    <button
-                            class="btn btn-outline-success my-2 my-sm-0"
-                            type="submit"
-                            name ="search_button"> Search
-                    </button>-->
                 {%csrf_token%}
                     Article: {{formy.article}}
                 <br>
                     Supp: {{formy.supplier}}
                 <br>
+                    Shipmet_cost: {{formy.shipment_cost}}
+                <br>
+                    Order_min: {{formy.order_min}}
+                <br>
+                    price: {{formy.price}}
                 <button type="submit" class="btn btn-success" name="AddArticleToSupp">
                     <span class="glyphicon glyphicon-plus"></span> {{matches}}
                 </button>

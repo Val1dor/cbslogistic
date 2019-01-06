@@ -7,7 +7,7 @@ from .models import Article, Supplier, Detail, Orderbasket, Suppliercontract
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm, AddArticleToSuppForm
+from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket
 
 
 
@@ -45,6 +45,7 @@ class MatrixListView(generic.ListView):
         context['details'] = Detail.objects.all()
         context['formx'] = SearchForm()
         context['formy'] = AddArticleToSuppForm()
+        #context['formy'] = AddArticleToSuppFormRaw()
         return context
 
     def post(self, request):
@@ -76,6 +77,7 @@ class MatrixListView(generic.ListView):
 
         elif 'AddArticleToSupp' in request.POST:
             form = AddArticleToSuppForm(request.POST)
+            #form = AddArticleToSuppFormRaw(request.POST)
             if form.is_valid():
                 form.save()
                 formy = AddArticleToSuppForm()
@@ -87,21 +89,37 @@ class MatrixListView(generic.ListView):
                            'formy': formy}
                 return render(request, self.template_name, context)
             else:
-                raise Http404("Gibts nicht2")
+                raise Http404("Gibts nicht2ee")
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'
 
     def get_context_data(self, **kwargs):
         context = super(BucketListView, self).get_context_data(**kwargs)
-        context['details'] = Detail.objects.filter(supplier__id=request.POST['getbucket'])
-        context['supplier'] = Supplier.objects.get(id=request.POST['getbucket'])
-        return context
+        try:
+            context['details'] = Detail.objects.filter(supplier__id=request.POST['getbucket'])
+            context['supplier'] = Supplier.objects.get(id=request.POST['getbucket'])
+            context['formy'] = AddArticleToBasket()
+        except:
+            return context
 
     def post(self, request, *args, **kwargs):
-        details = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
-        return render(request, 'getbucket.html', {'details': details})
+        if 'getbucket' in request.POST:
+            formy = AddArticleToBasket()
 
+            details = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
+            return render(request, 'getbucket.html', {'details': details,
+                                                  'formy': formy})
+        if 'savequantity' in request.POST:
+            form = AddArticleToBasket(request.POST)
+
+            if form.is_valid():
+                form.save()
+                formy = AddArticleToBasket()
+                orders = Orderbasket.objects.all()
+
+                return render(request, 'getbucket.html',{'formy': formy,
+                                                         'orders': orders})
 
 
 
