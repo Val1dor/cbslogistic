@@ -20,23 +20,26 @@
         <th>Preis pro Einheit</th>
         <th>Anzahl</th>
         <th>Positionspreis</th>
-        {% for detail in details %}
+        {% for basket in baskets %}
         <tr>
             <td>
-                {{detail.detail.article}}
+                {{basket.detail.article}}
             </td>
             <td>
-                {{detail.detail.order_min}}
+                {{basket.detail.order_min}}
             </td>
             <td>
-                {{detail.detail.price}}
+                {{basket.detail.price}}
+            </td>
+            <td>
+                {{basket.detail.supplier}}
             </td>
             <td>
             <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
                 {%csrf_token%}
                 {{formy.quantity}}
-                <input type="hidden" name="detail" value="{{detail}}" />
-                <button type="submit" class="btn btn-success" name="savequantity">
+                <input type="hidden" name="detail" value="{{basket}}" />
+                <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
                     <span class="glyphicon glyphicon-plus"></span> save
                 </button>
             </form>

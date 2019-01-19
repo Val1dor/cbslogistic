@@ -51,6 +51,7 @@ class Orderbasket(models.Model):
     detail = models.ForeignKey(Detail, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
     quantity = models.IntegerField(default=1)
+    confirmed = models.BooleanField(default=False)
     ordered = models.BooleanField(default=False)
     #article = models.ForeignKey(Article, on_delete=models.CASCADE)
     #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)

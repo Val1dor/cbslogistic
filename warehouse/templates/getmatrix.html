@@ -61,10 +61,9 @@
         <td>
             <form action="/getmatrix/" method="post">
                 {%csrf_token%}
-
-                            <button type="submit" class="btn btn-success" name="add" value="{{matches.id}}">
-                                <span class="glyphicon glyphicon-plus"></span> {{matches}}
-                            </button>
+                    <button type="submit" class="btn btn-success" name="add" value="{{matches.id}}">
+                        <span class="glyphicon glyphicon-plus"></span> {{matches}}
+                    </button>
             </form>
 
         </td>
