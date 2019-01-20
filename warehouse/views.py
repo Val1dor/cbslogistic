@@ -108,8 +108,10 @@ class BucketListView(generic.ListView):
         if 'getbucket' in request.POST:
             formy = AddArticleToBasket()
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
+            supplier = Supplier.objects.get(id=request.POST['getbucket'])
             return render(request, 'getbucket.html', {'baskets': baskets,
-                                                  'formy': formy})
+                                                      'formy': formy,
+                                                      'supplier': supplier})
 
         if 'savequantity' in request.POST:
             instance = Orderbasket.objects.get(id=request.POST['savequantity'])

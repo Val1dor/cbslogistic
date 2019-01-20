@@ -11,17 +11,20 @@
 
 </head>
 <body>
+<div class="container">
+<h1>{{supplier.name}}</h1>
 <table class="table">
     <thead>
-    <h1>{{supplier.name}}</h1>
     <tr>
         <th>Artikel</th>
         <th>Bestelleinheiten</th>
         <th>Preis pro Einheit</th>
+        <th>Lieferant</th>
         <th>Anzahl</th>
-        <th>Positionspreis</th>
         {% for basket in baskets %}
-        <tr>
+    <tr>
+    </thead>
+    <tbody>
             <td>
                 {{basket.detail.article}}
             </td>
@@ -35,21 +38,60 @@
                 {{basket.detail.supplier}}
             </td>
             <td>
-            <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
-                {%csrf_token%}
-                {{formy.quantity}}
-                <input type="hidden" name="detail" value="{{basket}}" />
-                <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
-                    <span class="glyphicon glyphicon-plus"></span> save
-                </button>
-            </form>
+                {{basket.quantity}}
             </td>
             <td>
-               <!-- {% for order in orders%}
-                    {{order.quantity}}
-                {% endfor %}-->
+                <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
+                    {%csrf_token%}
+                    {{formy.quantity}}
+                    <input type="hidden" name="detail" value="{{basket}}" />
+                    <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
+                        <span class="glyphicon glyphicon-plus"></span> save
+                    </button>
+                </form>
             </td>
-        </tr>
+             </tr>
+    </tbody>
         {% endfor %}
+
+</table>
+</div>
+
+<div class="container">
+<h1>confirmed: </h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Artikel</th>
+        <th>Bestelleinheiten</th>
+        <th>Preis pro Einheit</th>
+        <th>Anzahl</th>
+        <th>Positionspreis</th>
+     </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+        <td>
+            <form action="/getbucket/" method="post">
+            {%csrf_token%}
+                <button type="submit" class="btn btn-primary" name="delete" value="{{basket.detail.supplier.id}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> delete
+                </button>
+            </form>
+        </td>
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
 </body>
 </html>
