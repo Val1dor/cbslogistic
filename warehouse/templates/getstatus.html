@@ -59,14 +59,21 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Supplier</th>
         <th>Article</th>
         <th>Date</th>
+        <th>Supplier</th>
      </tr>
     </thead>
         {% for basket in baskets %}
     <tbody>
         <tr>
+
+        <td>
+        {{basket.detail.article}}
+        </td>
+        <td>
+          {{basket.date}}
+        </td>
         <td>
             <form action="/getbucket/" method="post">
             {%csrf_token%}
@@ -76,10 +83,12 @@
             </form>
         </td>
         <td>
-        {{basket.detail.article}}
-        </td>
-        <td>
-          {{basket.date}}
+            <form action="/getstatus/" method="post">
+            {%csrf_token%}
+                <button type="submit" class="btn btn-default btn-sm" name="remove" value="{{basket.detail.supplier.id}}">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </form>
         </td>
         </tr>
         {% endfor %}

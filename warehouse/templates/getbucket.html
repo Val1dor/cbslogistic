@@ -21,10 +21,12 @@
         <th>Preis pro Einheit</th>
         <th>Lieferant</th>
         <th>Anzahl</th>
-        {% for basket in baskets %}
+
     <tr>
     </thead>
     <tbody>
+    {% for basket in baskets_unsaved %}
+        <tr>
             <td>
                 {{basket.detail.article}}
             </td>
@@ -41,18 +43,22 @@
                 {{basket.quantity}}
             </td>
             <td>
+                {{basket.confirmed}}
+            </td>
+            <td>
                 <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
                     {%csrf_token%}
                     {{formy.quantity}}
+                    <input type="hidden" name="supplier" value="{{supplier.id}}" />
                     <input type="hidden" name="detail" value="{{basket}}" />
                     <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
                         <span class="glyphicon glyphicon-plus"></span> save
                     </button>
                 </form>
             </td>
-             </tr>
+        </tr>
     </tbody>
-        {% endfor %}
+    {% endfor %}
 
 </table>
 </div>
@@ -71,17 +77,38 @@
     </thead>
 
     <tbody>
+    {% for basket in baskets_saved %}
         <tr>
-        <td>
-            <form action="/getbucket/" method="post">
-            {%csrf_token%}
-                <button type="submit" class="btn btn-primary" name="delete" value="{{basket.detail.supplier.id}}">
-                    <span class="glyphicon glyphicon-list-alt"></span> delete
-                </button>
-            </form>
-        </td>
-
-
+            <td>
+                {{basket.detail.article}}
+            </td>
+            <td>
+                {{basket.detail.order_min}}
+            </td>
+            <td>
+                {{basket.detail.price}}
+            </td>
+            <td>
+                {{basket.detail.supplier}}
+            </td>
+            <td>
+                {{basket.quantity}}
+            </td>
+            <td>
+                {{basket.confirmed}}
+            </td>
+            <td>
+                <form action="/getbucket/" method="post">
+                {%csrf_token%}
+                    <input type="hidden" name="supplier" value="{{supplier.id}}" />
+                    <input type="hidden" name="detail" value="{{basket}}" />
+                    <button type="submit" class="btn btn-primary" name="delquantity" value="{{basket.id}}">
+                        <span class="glyphicon glyphicon-list-alt"></span> delete
+                    </button>
+                </form>
+            </td>
+        <tr>
+    {% endfor %}
     </tbody>
 </table>
 

@@ -25,15 +25,38 @@ class ArticleListView(generic.ListView):
         return context
 
     def post(self, request):
-        if request.POST['detail']:# == 'detail':
-            try:
+        if 'detail' in request.POST:
+        #if request.POST['detail']:
+            #try:
+            exist = Orderbasket.objects.filter(detail__id=request.POST['detail'])
+            if not exist:
                 detail = Detail.objects.get(id=request.POST['detail'])
                 basket = Orderbasket()
-                basket.detail=(detail)
+                basket.detail = (detail)
                 basket.save()
-            except Detail.DoesNotExist:
-                raise Http404("Gibts nicht")
-            return HttpResponseRedirect(reverse('getstatus'))
+                return HttpResponseRedirect(reverse('getstatus'))
+            else:
+                return HttpResponseRedirect(reverse('getstatus'))
+
+        if 'remove' in request.POST:
+
+            exist = Orderbasket.objects.filter(detail__id=request.POST['remove'])
+            exist.delete()
+           # except Orderbasket.DoesNotExist:
+            #    return HttpResponseRedirect(reverse('getstatus'))
+
+            ####DAS IST EIN TEST
+            empty_articles = Article.objects.filter(sensor_status=True)
+            all_supplier = Supplier.objects.all()
+            details = Detail.objects.filter(article__sensor_status=True)
+            baskets = Orderbasket.objects.order_by('detail__supplier')
+            ####DAS IST EIN TEST
+            return render(request, 'getstatus.html', {'empty_articles': empty_articles,
+                                                      'all_supplier': all_supplier,
+                                                      'details': details,
+                                                      'baskets': baskets})
+
+
 
 class MatrixListView(generic.ListView):
     template_name = 'getmatrix.html'
@@ -108,8 +131,11 @@ class BucketListView(generic.ListView):
         if 'getbucket' in request.POST:
             formy = AddArticleToBasket()
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
+            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='True')
+            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='False')
             supplier = Supplier.objects.get(id=request.POST['getbucket'])
-            return render(request, 'getbucket.html', {'baskets': baskets,
+            return render(request, 'getbucket.html', {'baskets_saved': baskets_saved,
+                                                      'baskets_unsaved': baskets_unsaved,
                                                       'formy': formy,
                                                       'supplier': supplier})
 
@@ -119,17 +145,39 @@ class BucketListView(generic.ListView):
 
             if form.is_valid():
                 form.save()
+                #update table to true
+                beforesave = Orderbasket.objects.get(id=request.POST['savequantity'])
+                beforesave.confirmed = 'True'
+                beforesave.save()
                 formy = AddArticleToBasket()
                 baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
+                baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
+                baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+                supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
                 return render(request, 'getbucket.html', {'formy': formy,
-                                                         'baskets': baskets})
+                                                          'baskets_saved': baskets_saved,
+                                                          'baskets_unsaved': baskets_unsaved,
+                                                          'supplier': supplier})
 
             return render(request, '404.html')
 
+        if 'delquantity' in request.POST:
+            #instance = Orderbasket.objects.get(id=request.POST['delquantity'])
+            #form = AddArticleToBasket(request.POST or None, instance=instance)
+            beforesave = Orderbasket.objects.get(id=request.POST['delquantity'])
+            beforesave.confirmed = 'False'
+            beforesave.save()
+            formy = AddArticleToBasket()
+            baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
+            baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
+            baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+            supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
-
-
+            return render(request, 'getbucket.html', {'formy': formy,
+                                                      'baskets_saved': baskets_saved,
+                                                      'baskets_unsaved': baskets_unsaved,
+                                                      'supplier': supplier})
 
 
 
