@@ -19,9 +19,8 @@
         <th>Artikel</th>
         <th>Bestelleinheiten</th>
         <th>Preis pro Einheit</th>
-        <th>Lieferant</th>
-        <th>Anzahl</th>
-
+        <th>Aktuelle Anzahl</th>
+        <th>Eingabe Anzahl</th>
     <tr>
     </thead>
     <tbody>
@@ -37,13 +36,7 @@
                 {{basket.detail.price}}
             </td>
             <td>
-                {{basket.detail.supplier}}
-            </td>
-            <td>
                 {{basket.quantity}}
-            </td>
-            <td>
-                {{basket.confirmed}}
             </td>
             <td>
                 <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
@@ -95,9 +88,6 @@
                 {{basket.quantity}}
             </td>
             <td>
-                {{basket.confirmed}}
-            </td>
-            <td>
                 <form action="/getbucket/" method="post">
                 {%csrf_token%}
                     <input type="hidden" name="supplier" value="{{supplier.id}}" />
@@ -111,14 +101,5 @@
     {% endfor %}
     </tbody>
 </table>
-
-
-
-
-
-
-
-
-
 </body>
 </html>

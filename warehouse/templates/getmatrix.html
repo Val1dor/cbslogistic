@@ -9,6 +9,7 @@
     <title>Matrix</title>
 </head>
 <body>
+<div class="container">
 <table class="table">
     <thead>
             <td>
@@ -35,8 +36,6 @@
             <th>Artikel</th>
             <th>Aktuelle Liferanten</th>
             <th>aktuelle Lieferanten</th>
-            <th>Suchfeld</th>
-            <th>add</th>
         </tr>
     </thead>
     <tbody>
@@ -57,19 +56,10 @@
                     {% endfor %}
             </form>
         </td>
-
-        <td>
-            <form action="/getmatrix/" method="post">
-                {%csrf_token%}
-                    <button type="submit" class="btn btn-success" name="add" value="{{matches.id}}">
-                        <span class="glyphicon glyphicon-plus"></span> {{matches}}
-                    </button>
-            </form>
-
-        </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+</div>
 </body>
 </html>

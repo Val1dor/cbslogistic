@@ -151,8 +151,11 @@ class BucketListView(generic.ListView):
                 beforesave.save()
                 formy = AddArticleToBasket()
                 baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
-                baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
-                baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+                #baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
+                #baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+                baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
+                baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
+
                 supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
                 return render(request, 'getbucket.html', {'formy': formy,
@@ -170,8 +173,10 @@ class BucketListView(generic.ListView):
             beforesave.save()
             formy = AddArticleToBasket()
             baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
-            baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
-            baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+            #baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
+            #baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
+            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
+            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
             supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
             return render(request, 'getbucket.html', {'formy': formy,
