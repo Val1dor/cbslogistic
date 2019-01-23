@@ -40,8 +40,9 @@ class ArticleListView(generic.ListView):
 
         if 'remove' in request.POST:
 
-            exist = Orderbasket.objects.filter(detail__id=request.POST['remove'])
-            exist.delete()
+            instance = Orderbasket.objects.get(id=request.POST['remove'])
+            instance.delete()
+
            # except Orderbasket.DoesNotExist:
             #    return HttpResponseRedirect(reverse('getstatus'))
 

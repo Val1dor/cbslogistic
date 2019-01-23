@@ -79,13 +79,13 @@
                 {{basket.detail.order_min}}
             </td>
             <td>
-                {{basket.detail.price}}
-            </td>
-            <td>
-                {{basket.detail.supplier}}
+                {{basket.detail.price}} €
             </td>
             <td>
                 {{basket.quantity}}
+            </td>
+            <td>
+                {% widthratio basket.quantity 1 basket.detail.price%} €
             </td>
             <td>
                 <form action="/getbucket/" method="post">

@@ -85,7 +85,7 @@
         <td>
             <form action="/getstatus/" method="post">
             {%csrf_token%}
-                <button type="submit" class="btn btn-default btn-sm" name="remove" value="{{basket.detail.supplier.id}}">
+                <button type="submit" class="btn btn-default btn-sm" name="remove" value="{{basket.id}}">
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </form>
