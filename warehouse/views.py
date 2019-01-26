@@ -7,7 +7,41 @@ from .models import Article, Supplier, Detail, Orderbasket, Suppliercontract
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket
+from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier
+
+
+class ArticleView(generic.TemplateView):
+    template_name = 'article.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleView, self).get_context_data(**kwargs)
+        context['empty_form'] = AddArticle()
+        return context
+
+    def post(self, request):
+        if 'save' in request.POST:
+            form = AddArticle(request.POST)
+            if form.is_valid():
+                form.save()
+
+            return HttpResponseRedirect(reverse('getstatus'))
+
+class SupplierView(generic.TemplateView):
+    template_name = 'supplier.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SupplierView, self).get_context_data(**kwargs)
+        context['empty_form'] = AddSupplier()
+        return context
+
+    def post(self, request):
+        if 'save' in request.POST:
+            form = AddSupplier(request.POST)
+            if form.is_valid():
+                form.save()
+
+            return HttpResponseRedirect(reverse('getstatus'))
+
 
 
 

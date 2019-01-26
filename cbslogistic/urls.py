@@ -24,6 +24,8 @@ from warehouse.views import getmatrix
 from warehouse.views import ArticleListView
 from warehouse.views import MatrixListView
 from warehouse.views import BucketListView
+from warehouse.views import ArticleView
+from warehouse.views import SupplierView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,4 +35,6 @@ urlpatterns = [
     #path('getmatrix/', getmatrix, name='getmatrix'),
     #path('getbucket/', getbucket, name='getbucket'),
     path('getbucket/', BucketListView.as_view(), name='getbucket'),
+    path('article/', ArticleView.as_view(), name='article'),
+    path('supplier/', SupplierView.as_view(), name='supplier'),
 ]

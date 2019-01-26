@@ -15,7 +15,9 @@
             <td>
             <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
                 {%csrf_token%}
-                    Article: {{formy.article}}
+                {{formy}}
+            </td>
+               <!--     Article: {{formy.article}}
                 <br>
                     Supp: {{formy.supplier}}
                 <br>
@@ -23,9 +25,10 @@
                 <br>
                     Order_min: {{formy.order_min}}
                 <br>
-                    price: {{formy.price}}
+                    price: {{formy.price}}-->
+               <td>
                 <button type="submit" class="btn btn-success" name="AddArticleToSupp">
-                    <span class="glyphicon glyphicon-plus"></span> {{matches}}
+                    <span class="glyphicon glyphicon-plus"></span> add & save
                 </button>
             </form>
         </td>

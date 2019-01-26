@@ -24,3 +24,12 @@ class AddArticleToSuppFormRaw(forms.Form):
     article = forms.CharField()
     supplier = forms.CharField()
 
+class AddArticle(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ('label', 'sensor_no')
+
+class AddSupplier(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = ('name',)
