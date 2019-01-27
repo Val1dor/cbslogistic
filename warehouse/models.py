@@ -60,7 +60,7 @@ class Orderbasket(models.Model):
 class Orders(models.Model):
     id = models.AutoField(primary_key=True)
     basket = models.ForeignKey(Orderbasket, on_delete=models.CASCADE)
-    ordernumber = models.CharField(unique=True)
+    ordernumber = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return str(self.ordernumber)

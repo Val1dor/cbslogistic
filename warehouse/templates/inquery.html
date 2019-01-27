@@ -51,7 +51,13 @@
   <div class="item1">supplier
   geiler scheiß da steht so viel
   </div>
-  <div class="item2">address</div>
+  <div class="item2">address
+      {% for basket in baskets %}
+        {{basket.detail.supplier}}
+      {% endfor %}
+
+
+  </div>
   <div class="item3">order</div>
   <div class="item4">date</div>
   <div class="item5">backoffice</div>

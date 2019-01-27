@@ -15,16 +15,15 @@ class InqueryView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(InqueryView, self).get_context_data(**kwargs)
-        #context['empty_form'] = AddArticle()
         return context
 
     def post(self, request):
-        if 'save' in request.POST:
-            form = AddArticle(request.POST)
-            if form.is_valid():
-                form.save()
+        if 'cart' in request.POST:
+            baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('cart'))[:1]
 
-            return HttpResponseRedirect(reverse('getstatus'))
+            return render(request, 'inquery.html', {'baskets': baskets})
+
+        return HttpResponseRedirect(reverse('getstatus'))
 
 class ArticleView(generic.TemplateView):
     template_name = 'article.html'
@@ -201,9 +200,6 @@ class BucketListView(generic.ListView):
                 beforesave.confirmed = 'True'
                 beforesave.save()
                 formy = AddArticleToBasket()
-                baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
-                #baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
-                #baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
                 baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
                 baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
 
@@ -223,9 +219,6 @@ class BucketListView(generic.ListView):
             beforesave.confirmed = 'False'
             beforesave.save()
             formy = AddArticleToBasket()
-            baskets = Orderbasket.objects.filter(detail__id=request.POST.get('detail'))
-            #baskets_saved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='True')
-            #baskets_unsaved = Orderbasket.objects.filter(detail__id=request.POST.get('detail')).filter(confirmed='False')
             baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
             baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
             supplier = Supplier.objects.get(id=request.POST.get('supplier'))

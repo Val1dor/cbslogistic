@@ -101,17 +101,14 @@
     {% endfor %}
     <br>
 
-
-
-
     </tbody>
 </table>
 
-            <form action="/getbucket/" method="forms">
+    <form action="/inquery/" method="post">
         {%csrf_token%}
             <!--<input type="hidden" name="supplier" value="{{supplier.id}}" />
             <input type="hidden" name="detail" value="{{basket}}" />-->
-            <button type="submit" class="btn btn-success btn-lg" name="cart" value="{{basket.id}}">
+            <button type="submit" class="btn btn-success btn-lg" name="cart" value="{{supplier.id}}">
                 <span class="glyphicon glyphicon-shopping-cart"></span> order
             </button>
         </form>
