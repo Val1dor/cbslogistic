@@ -53,12 +53,14 @@ class Orderbasket(models.Model):
     quantity = models.IntegerField(default=1)
     confirmed = models.BooleanField(default=False)
     ordered = models.BooleanField(default=False)
-    #article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    #number = models.CharField(max_length=200, default="XXX")
-    #date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        #return str(self.article) + str(': ____ordered from____: ') + str(self.supplier)
         return str(self.detail.id)
-        #return str('test')
+
+class Orders(models.Model):
+    id = models.AutoField(primary_key=True)
+    basket = models.ForeignKey(Orderbasket, on_delete=models.CASCADE)
+    ordernumber = models.CharField(unique=True)
+
+    def __str__(self):
+        return str(self.ordernumber)

@@ -45,7 +45,7 @@
                     <input type="hidden" name="supplier" value="{{supplier.id}}" />
                     <input type="hidden" name="detail" value="{{basket}}" />
                     <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
-                        <span class="glyphicon glyphicon-plus"></span> save
+                        <span class="glyphicon glyphicon-floppy-disk"></span> save
                     </button>
                 </form>
             </td>
@@ -99,7 +99,21 @@
             </td>
         <tr>
     {% endfor %}
+    <br>
+
+
+
+
     </tbody>
 </table>
+
+            <form action="/getbucket/" method="forms">
+        {%csrf_token%}
+            <!--<input type="hidden" name="supplier" value="{{supplier.id}}" />
+            <input type="hidden" name="detail" value="{{basket}}" />-->
+            <button type="submit" class="btn btn-success btn-lg" name="cart" value="{{basket.id}}">
+                <span class="glyphicon glyphicon-shopping-cart"></span> order
+            </button>
+        </form>
 </body>
 </html>
