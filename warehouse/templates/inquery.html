@@ -48,48 +48,34 @@
 <p>This grid layout contains six columns and three rows:</p>
 
 <div class="grid-container">
-  <div class="item1">supplier
-  geiler scheiß da steht so viel
-  </div>
-  <div class="item2">address
-      {% for basket in baskets %}
-        {{basket.detail.supplier}}
-      {% endfor %}
 
 
-  </div>
-  <div class="item3">order</div>
-  <div class="item4">date</div>
-  <div class="item5">backoffice</div>
-  <div class="item6">delivery</div>
-  <div class="item7">payment</div>
-  <div class="item8">billnumber</div>
-  <div class="item9">optional1</div>
-  <div class="item10">optional2</div>
+        <div class="item1">supplier
+            geiler scheiß da steht so viel
+        </div>
+        <div class="item2">address
+        {% for basket in baskets %}
+            {{basket.detail.supplier}}
+        {% endfor %}
+        </div>
+        <div class="item3">order</div>
+        <div class="item4">date</div>
+        <div class="item5">backoffice</div>
+        <div class="item6">delivery</div>
+        <div class="item7">payment</div>
+        <div class="item8">billnumber</div>
+        <div class="item9">optional1</div>
+        <div class="item10">optional2</div>
 </div>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</head>
-<body>
+    <form action="/inquery/" method="post">
+    {%csrf_token%}
+                {{BucketOrder}}
+                {% for basket in baskets %}
+                <button type="submit" class="btn btn-default btn-lg" name="printsave" value="{{basket.id}}">
+                    <span class="glyphicon glyphicon-print"> print & save</span>
+                </button>
+                {% endfor %}
+    </form>
 
 </body>
 </html>

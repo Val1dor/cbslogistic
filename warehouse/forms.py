@@ -1,5 +1,5 @@
 from django import forms
-from .models import Detail, Article, Supplier, Orderbasket
+from .models import Detail, Article, Supplier, Orderbasket, Orders
 
 class SearchForm(forms.Form):
     search_term = forms.CharField(label='search_term', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control',}))
@@ -33,3 +33,8 @@ class AddSupplier(forms.ModelForm):
     class Meta:
         model = Supplier
         fields = ('name',)
+
+class BucketToOrder(forms.ModelForm):
+    class Meta:
+        model = Orders
+        fields = ('ordernumber',)

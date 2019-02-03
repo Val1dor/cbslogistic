@@ -3,11 +3,11 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from .models import Article, Supplier, Detail, Orderbasket, Suppliercontract
+from .models import Article, Supplier, Detail, Orderbasket, Orders, Suppliercontract
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier
+from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder
 
 
 class InqueryView(generic.TemplateView):
@@ -20,8 +20,20 @@ class InqueryView(generic.TemplateView):
     def post(self, request):
         if 'cart' in request.POST:
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('cart'))[:1]
+            BucketOrder = BucketToOrder()
 
-            return render(request, 'inquery.html', {'baskets': baskets})
+            return render(request, 'inquery.html', {'baskets': baskets,
+                                                    'BucketOrder': BucketOrder})
+
+        if 'printsave' in request.POST:
+            #instance = Orderbasket.objects.get(id=request.POST.get('printsave'))
+            instance = Orders.objects.get(basket__id=request.POST.get('printsave'))
+            form = BucketToOrder(request.POST, instance = instance)
+
+            if form.is_valid():
+                form.save()
+
+                return render(request, 'getstatus.html')
 
         return HttpResponseRedirect(reverse('getstatus'))
 
