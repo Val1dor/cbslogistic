@@ -26,8 +26,9 @@ class InqueryView(generic.TemplateView):
                                                     'BucketOrder': BucketOrder})
 
         if 'printsave' in request.POST:
-            #instance = Orderbasket.objects.get(id=request.POST.get('printsave'))
-            instance = Orders.objects.get(basket__id=request.POST.get('printsave'))
+            instance = Orders.objects.filter(basket__id=request.POST.get('printsave')).first()
+            instancetwo = Orderbasket.objects.get(id=request.POST.get('printsave'))
+            instancetwo.ordered = 'True' #3.2.2019>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             form = BucketToOrder(request.POST, instance = instance)
 
             if form.is_valid():
