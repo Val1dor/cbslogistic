@@ -37,24 +37,41 @@ class InqueryView(generic.TemplateView):
   #              form = BucketToOrder(request.POST, instance=instance)  # ><< Hier liegt das Problem request.Post fremdschlüssel fehlt
 #
  #           except Orders.DoesNotExist:
-            instance = Orders()
-            instance.basket = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'),confirmed='True', ordered='False').first()
-            instance.ordernumber = 'XX'
-            instance.save()
-            form = BucketToOrder(request.POST, instance=instance)
+            #instance = Orders()
+            #instance.basket = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'),confirmed='True', ordered='False').first()
+            basket_set = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'), confirmed='True', ordered='False')
+            for basket in basket_set:
+                instance = Orders()
+                instance.basket = basket
+                instance.ordernumber = 'XX'
+                instance.save()
+                form = BucketToOrder(request.POST, instance=instance)
+
+                if form.is_valid():
+                    form.save()
+                    baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'))
+                    for basket1 in baskets:
+                        basket1.ordered = 'True'
+                        basket1.save()
+
+
+
+            #instance.ordernumber = 'XX'
+            #instance.save()
+            #form = BucketToOrder(request.POST, instance=instance)
 
             #instance = Orders.objects.filter(basket__id=request.POST.get('printsave')).first()#[:1]
             #form = BucketToOrder(request.POST, instance = instance) #><< Hier liegt das Problem request.Post fremdschlüssel fehlt
 
-            if form.is_valid():
-                form.save()
-                baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'))
-                for basket in baskets:
-                    basket.ordered = 'True'
-                    basket.save()
+            #if form.is_valid():
+             #   form.save()
+              #  baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'))
+               # for basket in baskets:
+                #    basket.ordered = 'True'
+                 #   basket.save()
 
-                return render(request, 'getstatus.html')
-            return render(request, 'inquery.html')
+            return render(request, 'getstatus.html')
+            #return render(request, 'inquery.html')
 
         #return HttpResponseRedirect(reverse('getstatus'))
 
