@@ -44,7 +44,8 @@ class InqueryView(generic.TemplateView):
                     for basket1 in baskets:
                         basket1.ordered = 'True'
                         basket1.save()
-            return render(request, 'getstatus.html')
+            #return render(request, 'getstatus.html')#url bleibt alte, geht zu getstatus, wird nicht geladen
+            return redirect('getstatus')
 
 class ArticleView(generic.TemplateView):
     template_name = 'article.html'
@@ -115,7 +116,7 @@ class ArticleListView(generic.ListView):
         #if request.POST['detail']:
             #try:
 
-            exist = Orderbasket.objects.filter(detail__id=request.POST['detail']) #Checkt op schon ein basket existiert und neu ob es noch nicht georder wurde
+            exist = Orderbasket.objects.filter(detail__id=request.POST['detail'], confirmed='False') #Checkt op schon ein basket existiert und neu ob es noch nicht georder wurde
             if not exist:
                 detail = Detail.objects.get(id=request.POST['detail'])
                 basket = Orderbasket()
