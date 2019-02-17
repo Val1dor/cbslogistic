@@ -29,16 +29,7 @@ class InqueryView(generic.TemplateView):
                                                     'suppliers': suppliers})
 
         if 'printsave' in request.POST:
-           # try:
-                # instance = Orders.objects.get(basket__id=request.POST.get('printsave'))    #.first()  # [:1]
 
-
-            #    instance = Orders.objects.filter(basket__detail__supplier__id=request.POST.get('printsave'), basket__confirmed='False', basket__ordered='False').first()
-  #              form = BucketToOrder(request.POST, instance=instance)  # ><< Hier liegt das Problem request.Post fremdschlüssel fehlt
-#
- #           except Orders.DoesNotExist:
-            #instance = Orders()
-            #instance.basket = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'),confirmed='True', ordered='False').first()
             basket_set = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'), confirmed='True', ordered='False')
             for basket in basket_set:
                 instance = Orders()
@@ -53,27 +44,7 @@ class InqueryView(generic.TemplateView):
                     for basket1 in baskets:
                         basket1.ordered = 'True'
                         basket1.save()
-
-
-
-            #instance.ordernumber = 'XX'
-            #instance.save()
-            #form = BucketToOrder(request.POST, instance=instance)
-
-            #instance = Orders.objects.filter(basket__id=request.POST.get('printsave')).first()#[:1]
-            #form = BucketToOrder(request.POST, instance = instance) #><< Hier liegt das Problem request.Post fremdschlüssel fehlt
-
-            #if form.is_valid():
-             #   form.save()
-              #  baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'))
-               # for basket in baskets:
-                #    basket.ordered = 'True'
-                 #   basket.save()
-
             return render(request, 'getstatus.html')
-            #return render(request, 'inquery.html')
-
-        #return HttpResponseRedirect(reverse('getstatus'))
 
 class ArticleView(generic.TemplateView):
     template_name = 'article.html'
@@ -107,6 +78,22 @@ class SupplierView(generic.TemplateView):
 
             return HttpResponseRedirect(reverse('getstatus'))
 
+class OrderView(generic.TemplateView):
+    template_name = 'order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        context['orders'] = Orders.objects.all()
+        return context
+
+    def post(self, request):
+        if 'save' in request.POST:
+            form = AddArticle(request.POST)
+            if form.is_valid():
+                form.save()
+
+            return HttpResponseRedirect(reverse('getstatus'))
+
 
 
 
@@ -120,7 +107,7 @@ class ArticleListView(generic.ListView):
         context['empty_articles'] = Article.objects.filter(sensor_status=True)
         context['all_supplier'] = Supplier.objects.all()
         context['details'] = Detail.objects.filter(article__sensor_status=True)
-        context['baskets'] = Orderbasket.objects.order_by('detail__supplier')
+        context['baskets'] = Orderbasket.objects.filter(ordered='False').order_by('detail__supplier')
         return context
 
     def post(self, request):

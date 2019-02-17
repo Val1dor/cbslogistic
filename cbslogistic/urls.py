@@ -27,6 +27,7 @@ from warehouse.views import BucketListView
 from warehouse.views import ArticleView
 from warehouse.views import SupplierView
 from warehouse.views import InqueryView
+from warehouse.views import OrderView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -39,4 +40,5 @@ urlpatterns = [
     path('article/', ArticleView.as_view(), name='article'),
     path('supplier/', SupplierView.as_view(), name='supplier'),
     path('inquery/', InqueryView.as_view(), name='inquery'),
+    path('order/', OrderView.as_view(), name='order'),
 ]

@@ -61,6 +61,7 @@ class Orders(models.Model):
     id = models.AutoField(primary_key=True)
     basket = models.ForeignKey(Orderbasket, on_delete=models.CASCADE)
     ordernumber = models.CharField(max_length=50) #unique wurde auskommentiert 12.2.2019
+    date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return str(self.ordernumber)
