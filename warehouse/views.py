@@ -116,7 +116,7 @@ class ArticleListView(generic.ListView):
         #if request.POST['detail']:
             #try:
 
-            exist = Orderbasket.objects.filter(detail__id=request.POST['detail'], confirmed='False') #Checkt op schon ein basket existiert und neu ob es noch nicht georder wurde
+            exist = Orderbasket.objects.filter(detail__id=request.POST['detail'], ordered='False') #Checkt op schon ein basket existiert und neu ob es noch nicht georder wurde
             if not exist:
                 detail = Detail.objects.get(id=request.POST['detail'])
                 basket = Orderbasket()
@@ -216,7 +216,7 @@ class BucketListView(generic.ListView):
 
     def post(self, request, *args, **kwargs):
 
-        if 'getbucket' in request.POST:
+        if 'getbucket' in request.POST: #supplier.id
             formy = AddArticleToBasket()
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
             baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='True').filter(ordered=False)
@@ -238,8 +238,8 @@ class BucketListView(generic.ListView):
                 beforesave.confirmed = 'True'
                 beforesave.save()
                 formy = AddArticleToBasket()
-                baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
-                baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
+                baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier'], confirmed='True', ordered='False')
+                baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier'], confirmed='False', ordered='False')
 
                 supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
@@ -257,8 +257,8 @@ class BucketListView(generic.ListView):
             beforesave.confirmed = 'False'
             beforesave.save()
             formy = AddArticleToBasket()
-            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='True')
-            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier']).filter(confirmed='False')
+            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier'], confirmed='True', ordered='False')
+            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['supplier'], confirmed='False', ordered='False')
             supplier = Supplier.objects.get(id=request.POST.get('supplier'))
 
             return render(request, 'getbucket.html', {'formy': formy,
