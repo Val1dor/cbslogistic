@@ -37,4 +37,5 @@ class AddSupplier(forms.ModelForm):
 class BucketToOrder(forms.ModelForm):
     class Meta:
         model = Orders
-        fields = ('ordernumber',)
+        fields = ('ordernumber',)# 'basket')
+        #widgets = {'basket': forms.HiddenInput()}

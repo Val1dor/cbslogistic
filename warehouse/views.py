@@ -20,23 +20,43 @@ class InqueryView(generic.TemplateView):
     def post(self, request):
         if 'cart' in request.POST:
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('cart'))[:1]
+            #16.2.2019 alt brauche ich nicht
+            suppliers = Supplier.objects.filter(id=request.POST.get('cart'))
             BucketOrder = BucketToOrder()
 
             return render(request, 'inquery.html', {'baskets': baskets,
-                                                    'BucketOrder': BucketOrder})
+                                                    'BucketOrder': BucketOrder,
+                                                    'suppliers': suppliers})
 
         if 'printsave' in request.POST:
-            instance = Orders.objects.filter(basket__id=request.POST.get('printsave')).first()
-            instancetwo = Orderbasket.objects.get(id=request.POST.get('printsave'))
-            instancetwo.ordered = 'True' #3.2.2019>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            form = BucketToOrder(request.POST, instance = instance)
+           # try:
+                # instance = Orders.objects.get(basket__id=request.POST.get('printsave'))    #.first()  # [:1]
+
+
+            #    instance = Orders.objects.filter(basket__detail__supplier__id=request.POST.get('printsave'), basket__confirmed='False', basket__ordered='False').first()
+  #              form = BucketToOrder(request.POST, instance=instance)  # ><< Hier liegt das Problem request.Post fremdschlüssel fehlt
+#
+ #           except Orders.DoesNotExist:
+            instance = Orders()
+            instance.basket = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'),confirmed='True', ordered='False').first()
+            instance.ordernumber = 'XX'
+            instance.save()
+            form = BucketToOrder(request.POST, instance=instance)
+
+            #instance = Orders.objects.filter(basket__id=request.POST.get('printsave')).first()#[:1]
+            #form = BucketToOrder(request.POST, instance = instance) #><< Hier liegt das Problem request.Post fremdschlüssel fehlt
 
             if form.is_valid():
                 form.save()
+                baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('printsave'))
+                for basket in baskets:
+                    basket.ordered = 'True'
+                    basket.save()
 
                 return render(request, 'getstatus.html')
+            return render(request, 'inquery.html')
 
-        return HttpResponseRedirect(reverse('getstatus'))
+        #return HttpResponseRedirect(reverse('getstatus'))
 
 class ArticleView(generic.TemplateView):
     template_name = 'article.html'
@@ -90,7 +110,8 @@ class ArticleListView(generic.ListView):
         if 'detail' in request.POST:
         #if request.POST['detail']:
             #try:
-            exist = Orderbasket.objects.filter(detail__id=request.POST['detail'])
+
+            exist = Orderbasket.objects.filter(detail__id=request.POST['detail']) #Checkt op schon ein basket existiert und neu ob es noch nicht georder wurde
             if not exist:
                 detail = Detail.objects.get(id=request.POST['detail'])
                 basket = Orderbasket()
@@ -193,8 +214,8 @@ class BucketListView(generic.ListView):
         if 'getbucket' in request.POST:
             formy = AddArticleToBasket()
             baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']) #basket.detail.supplier.id
-            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='True')
-            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='False')
+            baskets_saved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='True').filter(ordered=False)
+            baskets_unsaved = Orderbasket.objects.filter(detail__supplier__id=request.POST['getbucket']).filter(confirmed='False').filter(ordered=False)
             supplier = Supplier.objects.get(id=request.POST['getbucket'])
             return render(request, 'getbucket.html', {'baskets_saved': baskets_saved,
                                                       'baskets_unsaved': baskets_unsaved,
@@ -239,6 +260,27 @@ class BucketListView(generic.ListView):
                                                       'baskets_saved': baskets_saved,
                                                       'baskets_unsaved': baskets_unsaved,
                                                       'supplier': supplier})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
