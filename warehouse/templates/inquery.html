@@ -18,6 +18,8 @@
 .item8 { grid-area: billnumber; }
 .item9 { grid-area: optional1; }
 .item10 { grid-area: optional2; }
+.item11 { grid-area: optional3; }
+
 
 .grid-container {
   display: grid;
@@ -27,7 +29,8 @@
     'supplier delivery backoffice'
     'supplier payment backoffice'
     'supplier optional1 billnumber'
-    'supplier optional2 billnumber';
+    'supplier optional2 billnumber'
+    'optional3 optional3 optional3';
   grid-gap: 3px;
   background-color: #000000;
   padding: 5px;
@@ -42,10 +45,26 @@
 </style>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/getstatus">CBSLogistic</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/getstatus">Home</a></li>
+      <li><a href="/article">Artikel</a></li>
+      <li><a href="/supplier">Lieferanten</a></li>
+      <li><a href="/getmatrix">Wer hat was?</a></li>
+      <li><a href="/order">Bestellungen</a></li>
+    </ul>
+  </div>
+</nav>
 
-<h1>invoice</h1>
 
-<p>This grid layout contains six columns and three rows:</p>
+
+<div class="container">
+    <h1>invoice</h1>
+    <p>This grid layout contains six columns and three rows:</p>
 
 <div class="grid-container">
 
@@ -54,19 +73,52 @@
             geiler scheiß da steht so viel
         </div>
         <div class="item2">address
-
         {% for supplier in suppliers %}
             {{supplier.name}}
         {% endfor %}
         </div>
-        <div class="item3">order</div>
-        <div class="item4">date</div>
-        <div class="item5">backoffice</div>
-        <div class="item6">delivery</div>
-        <div class="item7">payment</div>
-        <div class="item8">billnumber</div>
+        <div class="item3">order
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
+        <div class="item4">date
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
+        <div class="item5">backoffice
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
+        <div class="item6">delivery
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
+        <div class="item7">payment
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
+        <div class="item8">billnumber
+        {% for supplier in suppliers %}
+            {{supplier.name}}
+        {% endfor %}
+        </div>
         <div class="item9">optional1</div>
         <div class="item10">optional2</div>
+        <div class="item11">
+
+        {% for basket in baskets %}
+            {{basket.detail.article.label}}
+            {{basket.quantity}}
+            {{basket.detail.price}}
+        {% endfor %}
+        </div>
+
+</div>
 </div>
     <form action="/inquery/" method="post">
     {%csrf_token%}
