@@ -16,7 +16,7 @@ class AddArticleToSuppForm(forms.ModelForm):
 class AddArticleToBasket(forms.ModelForm):
     class Meta:
         model = Orderbasket
-        fields = ('quantity', 'detail')
+        fields = ('quantity', 'detail','address', 'discount_abs', 'discount_percent')
         widgets = {'detail': forms.HiddenInput()}
 
 
@@ -27,12 +27,12 @@ class AddArticleToSuppFormRaw(forms.Form):
 class AddArticle(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ('label', 'sensor_no')
+        fields = ('label', 'sensor_no', 'image')
 
 class AddSupplier(forms.ModelForm):
     class Meta:
         model = Supplier
-        fields = ('name',)
+        fields = ('name', 'shipment_cost', 'order_min_value')
 
 class BucketToOrder(forms.ModelForm):
     class Meta:

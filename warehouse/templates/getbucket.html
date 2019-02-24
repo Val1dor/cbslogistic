@@ -31,38 +31,43 @@
     <thead>
     <tr>
         <th>Artikel</th>
-        <th>Bestelleinheiten</th>
-        <th>Preis pro Einheit</th>
-        <th>Aktuelle Anzahl</th>
-        <th>Eingabe Anzahl</th>
+        <th>Preis</th>
+        <th>Anzahl</th>
+        <th>Lieferadresse</th>
+        <th>Rabatt: [%]</th>
+        <th>Rabatt: [abs]</th>
+        <th></th>
     <tr>
     </thead>
     <tbody>
     {% for basket in baskets_unsaved %}
         <tr>
             <td>
-                {{basket.detail.article}}
+                {{basket.detail.article.label}}
             </td>
             <td>
-                {{basket.detail.order_min}}
+                {{basket.detail.article.image}}
             </td>
             <td>
                 {{basket.detail.price}}
             </td>
-            <td>
-                {{basket.quantity}}
-            </td>
-            <td>
                 <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
                     {%csrf_token%}
-                    {{formy.quantity}}
+                    <td>{{formy.quantity}}</td>
+                    <td>{{formy.address}}</td>
+                    <td>{{formy.discount_abs}}</td>
+                    <td>{{formy.discount_percent}}</td>
+
                     <input type="hidden" name="supplier" value="{{supplier.id}}" />
                     <input type="hidden" name="detail" value="{{basket}}" />
+                    <td>
                     <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
+
                         <span class="glyphicon glyphicon-floppy-disk"></span> save
-                    </button>
-                </form>
-            </td>
+                        </button>
+                    </td>
+            </form>
+
         </tr>
     </tbody>
     {% endfor %}

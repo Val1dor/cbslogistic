@@ -19,7 +19,7 @@ class InqueryView(generic.TemplateView):
 
     def post(self, request):
         if 'cart' in request.POST:
-            baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('cart'))[:1]
+            baskets = Orderbasket.objects.filter(detail__supplier__id=request.POST.get('cart'))
             #16.2.2019 alt brauche ich nicht
             suppliers = Supplier.objects.filter(id=request.POST.get('cart'))
             BucketOrder = BucketToOrder()
@@ -109,8 +109,8 @@ class ArticleListView(generic.ListView):
         context['all_supplier'] = Supplier.objects.all()
         context['details'] = Detail.objects.filter(article__sensor_status=True)
         context['baskets'] = Orderbasket.objects.filter(ordered='False').order_by('detail__supplier')
-        return context
 
+        return context
     def post(self, request):
         if 'detail' in request.POST:
         #if request.POST['detail']:
@@ -130,15 +130,12 @@ class ArticleListView(generic.ListView):
 
             instance = Orderbasket.objects.get(id=request.POST['remove'])
             instance.delete()
-           # except Orderbasket.DoesNotExist:
-            #    return HttpResponseRedirect(reverse('getstatus'))
-
-            ####DAS IST EIN TEST
             empty_articles = Article.objects.filter(sensor_status=True)
             all_supplier = Supplier.objects.all()
             details = Detail.objects.filter(article__sensor_status=True)
-            baskets = Orderbasket.objects.order_by('detail__supplier')
-            ####DAS IST EIN TEST
+            #baskets = Orderbasket.objects.order_by('detail__supplier')
+            baskets = Orderbasket.objects.filter(ordered='False').order_by('detail__supplier')
+
             return render(request, 'getstatus.html', {'empty_articles': empty_articles,
                                                       'all_supplier': all_supplier,
                                                       'details': details,

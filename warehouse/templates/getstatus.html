@@ -87,6 +87,7 @@
             <form action="/getbucket/" method="post">
             {%csrf_token%}
                 <button type="submit" class="btn btn-primary" name="getbucket" value="{{basket.detail.supplier.id}}">
+                    <!--24.2.2019 vorher value:basket.detail.supplier.id-->
                     <span class="glyphicon glyphicon-list-alt"></span> {{basket.detail.supplier}}
                 </button>
             </form>

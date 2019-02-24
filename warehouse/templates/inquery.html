@@ -18,7 +18,7 @@
 .item8 { grid-area: billnumber; }
 .item9 { grid-area: optional1; }
 .item10 { grid-area: optional2; }
-.item11 { grid-area: optional3; }
+.item11 { grid-area: optional2; }
 
 
 .grid-container {
@@ -30,7 +30,7 @@
     'supplier payment backoffice'
     'supplier optional1 billnumber'
     'supplier optional2 billnumber'
-    'optional3 optional3 optional3';
+    'article_label article_number article_price';
   grid-gap: 3px;
   background-color: #000000;
   padding: 5px;
@@ -65,8 +65,7 @@
 <div class="container">
     <h1>invoice</h1>
     <p>This grid layout contains six columns and three rows:</p>
-
-<div class="grid-container">
+    <div class="grid-container">
 
 
         <div class="item1">supplier
@@ -109,17 +108,30 @@
         </div>
         <div class="item9">optional1</div>
         <div class="item10">optional2</div>
-        <div class="item11">
-
-        {% for basket in baskets %}
-            {{basket.detail.article.label}}
-            {{basket.quantity}}
-            {{basket.detail.price}}
-        {% endfor %}
-        </div>
-
+    </div>
 </div>
-</div>
+
+
+<div class="container">
+    <table class="table">
+    <thead>
+    <tr>
+        <th>Artikelname</th>
+        <th>Anzahl</th>
+        <th>Preis:</th>
+     </tr>
+    </thead>
+    <tbody>
+    {% for basket in baskets %}
+    <tr>
+        <td>{{basket.detail.article.label}}</td>
+        <td>{{basket.quantity}}</td>
+        <td>{{basket.detail.price}}</td>
+        <td>{{form}}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
     <form action="/inquery/" method="post">
     {%csrf_token%}
         {{BucketOrder}}
@@ -131,4 +143,5 @@
     </form>
 
 </body>
+</div>
 </html>
