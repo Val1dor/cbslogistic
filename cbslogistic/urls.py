@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from warehouse.views import getstatus
 from warehouse.views import getbucket
 from warehouse.views import getmatrix
@@ -41,4 +43,5 @@ urlpatterns = [
     path('supplier/', SupplierView.as_view(), name='supplier'),
     path('inquery/', InqueryView.as_view(), name='inquery'),
     path('order/', OrderView.as_view(), name='order'),
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

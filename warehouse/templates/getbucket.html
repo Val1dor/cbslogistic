@@ -46,7 +46,9 @@
                 {{basket.detail.article.label}}
             </td>
             <td>
-                {{basket.detail.article.image}}
+                {% if basket.detail.article.image %}
+                <img src="{{basket.detail.article.image.url}}" width="240">
+                {% endif %}
             </td>
             <td>
                 {{basket.detail.price}}
@@ -64,7 +66,7 @@
                     <button type="submit" class="btn btn-success" name= "savequantity" value="{{basket.id}}">
 
                         <span class="glyphicon glyphicon-floppy-disk"></span> save
-                        </button>
+                    </button>
                     </td>
             </form>
 

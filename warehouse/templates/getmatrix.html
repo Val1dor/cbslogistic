@@ -39,17 +39,17 @@
                     <span class="glyphicon glyphicon-plus"></span> add & save
                 </button>
             </form>
-        </td>
+             </td>
+     </thead>
 
-
-
-        <tr>
-            <th>Artikel</th>
-            <th>Aktuelle Liferanten</th>
-            <th>aktuelle Lieferanten</th>
-        </tr>
-    </thead>
     <tbody>
+
+    <tr>
+            <th>Artikel</th>
+            <th>Sensornummer</th>
+            <th>aktuelle Lieferanten</th>
+            <th>Preis</th>
+    </tr>
 
     {% for article in articles %}
     <tr>
@@ -63,6 +63,7 @@
                             <button type="submit" class="btn btn-danger" name="sub" value="{{detail.id}}">
                                 <span class="glyphicon glyphicon-minus"></span> {{detail.supplier}}
                             </button>
+                            <td>{{detail.price}}</td>
                         {% endif %}
                     {% endfor %}
             </form>

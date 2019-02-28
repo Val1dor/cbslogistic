@@ -8,15 +8,22 @@ class AddArticleToSuppForm(forms.ModelForm):
     class Meta:
         model = Detail
         fields = ('article', 'supplier','shipment_cost', 'order_min', 'price')
-        widgets = {
-            #'article': forms.TextInput(attrs={'cols': 80, 'rows': 20}),
-            #'supplier': forms.TextInput(attrs={'cols': 80, 'rows': 20})
-        }
+
+    def save(self, *args, **kwargs):
+        article = self.cleaned_data.get('article')
+        supplier = self.cleaned_data.get('supplier')
+
+        try:
+            query = Detail.objects.get(article__label=article, supplier__name=supplier)
+        except Detail.DoesNotExist:
+            super(AddArticleToSuppForm, self).save(*args, **kwargs)
+
+
 
 class AddArticleToBasket(forms.ModelForm):
     class Meta:
         model = Orderbasket
-        fields = ('quantity', 'detail','address', 'discount_abs', 'discount_percent')
+        fields = ('quantity', 'detail', 'address', 'discount_abs', 'discount_percent')
         widgets = {'detail': forms.HiddenInput()}
 
 

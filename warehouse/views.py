@@ -151,7 +151,7 @@ class MatrixListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(MatrixListView, self).get_context_data(**kwargs)
         context['details'] = Detail.objects.all()
-        context['formx'] = SearchForm()
+        context['formx'] = SearchForm()githubgit
         context['formy'] = AddArticleToSuppForm()
         #context['formy'] = AddArticleToSuppFormRaw()
         return context
@@ -185,7 +185,8 @@ class MatrixListView(generic.ListView):
 
         elif 'AddArticleToSupp' in request.POST:
             form = AddArticleToSuppForm(request.POST)
-            #form = AddArticleToSuppFormRaw(request.POST)
+
+            #if not Detail.objects.get(param=param):
             if form.is_valid():
                 form.save()
                 formy = AddArticleToSuppForm()
@@ -193,9 +194,10 @@ class MatrixListView(generic.ListView):
                 articles = Article.objects.all()
 
                 context = {'details': details,
-                           'articles': articles,
-                           'formy': formy}
+                            'articles': articles,
+                            'formy': formy}
                 return render(request, self.template_name, context)
+
             else:
                 raise Http404("Gibts nicht2ee")
 

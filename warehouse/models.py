@@ -53,7 +53,7 @@ class Article(models.Model):
     sensor_no = models.IntegerField()
     sensor_status = models.BooleanField(default=True)
     supplier = models.ManyToManyField(Supplier, through='Detail')
-    image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.ImageField(upload_to='profile_image', blank=True)
 
     def __str__(self):
         return self.label

@@ -24,15 +24,14 @@
     </ul>
   </div>
 </nav>
-    <div class="container">
 
-        <form class="form-inline my-2 my-lg-0" action="/article/" method="post">
+<div class="container">
+        <form class="form-inline my-2 my-lg-0" action="/article/" method="post" enctype="multipart/form-data">
             {%csrf_token%}
                 {{empty_form}}
-                    <button type="submit" class="btn btn-success" name= "save" value="{{basket.id}}">
+                    <button type="submit" class="btn btn-success" name= "save">
                         <span class="glyphicon glyphicon-plus"></span> save
                     </button>
-                </form>
-
-    </div>
+        </form>
+</div>
 </body>
