@@ -26,14 +26,17 @@
 <div class="container">
 <table class="table">
     <thead>
-            <td>
+        <h1>
+            {{new_detail}}
+            {{new_price.price}}
+        </h1>
+
             <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
                 {%csrf_token%}
-                {{formy}}
-            </td>
-               <!--     Article: {{formy.article}}
-                <br>
-                    Supp: {{formy.supplier}} -->
+                {{formy.as_p}}
+                {{formx.as_p}}
+
+
                <td>
                 <button type="submit" class="btn btn-success" name="AddArticleToSupp">
                     <span class="glyphicon glyphicon-plus"></span> add & save
@@ -50,7 +53,7 @@
             <th>aktuelle Lieferanten</th>
             <th>Preis</th>
     </tr>
-
+<!--
     {% for article in articles %}
     <tr>
         <td>{{article.label}}</td>
@@ -70,6 +73,26 @@
         </td>
     </tr>
     {% endfor %}
+-->
+    {% for detail in details%}
+    <tr>
+        <td>{{detail.article.label}}</td>
+        <td>{{detail.article.sensor_no}}</td>
+        <td>
+            <form action="/getmatrix/" method="post">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-danger" name="sub" value="{{detail.id}}">
+                    <span class="glyphicon glyphicon-minus"></span> {{detail.supplier}}
+                </button>
+                <td>{{detail.price.price}}</td>
+            </form>
+
+        </td>
+    </tr>
+    {% endfor %}
+
+
+
     </tbody>
 </table>
 </div>

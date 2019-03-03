@@ -3,11 +3,11 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from .models import Article, Supplier, Detail, Orderbasket, Orders, Suppliercontract
+from .models import Article, Supplier, Detail, Orderbasket, Orders, Suppliercontract, Detailprice
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder
+from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder, AddDetailPrice
 
 
 class InqueryView(generic.TemplateView):
@@ -151,9 +151,8 @@ class MatrixListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(MatrixListView, self).get_context_data(**kwargs)
         context['details'] = Detail.objects.all()
-        context['formx'] = SearchForm()githubgit
         context['formy'] = AddArticleToSuppForm()
-        #context['formy'] = AddArticleToSuppFormRaw()
+        context['formx'] = AddDetailPrice()
         return context
 
     def post(self, request):
@@ -165,37 +164,51 @@ class MatrixListView(generic.ListView):
                 raise Http404("Gibts nicht1")
             return HttpResponseRedirect(reverse('getmatrix'))
 
-        elif 'search_term' in request.POST:
-            form = SearchForm(request.POST)
-            if form.is_valid():
-                searchfield = form.cleaned_data.get('search_term')
-                formx = SearchForm()
-                matches = Supplier.objects.get(name__icontains=searchfield)
-                details = Detail.objects.all()
-                articles = Article.objects.all()
+      #  elif 'search_term' in request.POST:
+       #     form = SearchForm(request.POST)
+        #    if form.is_valid():
+         #       searchfield = form.cleaned_data.get('search_term')
+          #      formx = SearchForm()
+           #     matches = Supplier.objects.get(name__icontains=searchfield)
+            #    details = Detail.objects.all()
+             #   articles = Article.objects.all()
 
-                context = {'details': details,
-                          'searchfield': searchfield,
-                          'articles': articles,
-                           'matches': matches,
-                           'formx': formx}
-                return render(request, self.template_name, context)
-            else:
-                raise Http404("Gibts nicht2")
+              #  context = {'details': details,
+              #            'searchfield': searchfield,
+               #           'articles': articles,
+                #           'matches': matches,
+                 #          'formx': formx}
+               # return render(request, self.template_name, context)
+           # else:
+            #    raise Http404("Gibts nicht2")
 
         elif 'AddArticleToSupp' in request.POST:
-            form = AddArticleToSuppForm(request.POST)
+            form1 = AddArticleToSuppForm(request.POST)#Detail
+            form2 = AddDetailPrice(request.POST)       #Preis
 
-            #if not Detail.objects.get(param=param):
-            if form.is_valid():
-                form.save()
+            if form1.is_valid() and form2.is_valid():
+                new_detail = form1.save(commit=False)
+                new_price = form2.save()
+                new_detail.price = (new_price)
+                new_detail.save()
+
                 formy = AddArticleToSuppForm()
+                formx = AddDetailPrice()
                 details = Detail.objects.all()
                 articles = Article.objects.all()
+
+
+
+               # form.cleaned_data.get('price')
+                #setprice = Detailprice(price=form.cleaned_data.get('id'))
+                #setprice.save()
 
                 context = {'details': details,
                             'articles': articles,
-                            'formy': formy}
+                            'formy': formy,
+                            'formx': formx,
+                            'new_detail': new_detail,
+                            'new_price': new_price}
                 return render(request, self.template_name, context)
 
             else:
