@@ -30,6 +30,7 @@ from warehouse.views import ArticleView
 from warehouse.views import SupplierView
 from warehouse.views import InqueryView
 from warehouse.views import OrderView
+from warehouse.views import EditArticleView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -43,5 +44,6 @@ urlpatterns = [
     path('supplier/', SupplierView.as_view(), name='supplier'),
     path('inquery/', InqueryView.as_view(), name='inquery'),
     path('order/', OrderView.as_view(), name='order'),
+    path('editarticle/', EditArticleView.as_view(), name='editarticle')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

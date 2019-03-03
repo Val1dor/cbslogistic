@@ -53,15 +53,38 @@ class ArticleView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ArticleView, self).get_context_data(**kwargs)
         context['empty_form'] = AddArticle()
+        context['articles'] = Article.objects.all()
         return context
 
     def post(self, request):
         if 'save' in request.POST:
-            form = AddArticle(request.POST)
+            form = AddArticle(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
 
             return HttpResponseRedirect(reverse('getstatus'))
+
+class EditArticleView(generic.TemplateView):
+    template_name = 'editarticle.html'
+
+    def post(self, request):
+        if 'edit' in request.POST:
+            article_edit = Article.objects.get(id=request.POST['edit'])
+            article_form = AddArticle()
+
+
+            return render(request, 'editarticle.html', {'article_edit': article_edit,
+                                                        'article_form': article_form})
+
+        if 'savechanges' in request.POST:
+            instance = Article.objects.get(id=request.POST['savechanges'])
+            form_edit = AddArticle(request.POST or None,request.FILES, instance=instance)
+            if form_edit.is_valid():
+                form_edit.save()
+
+            return render(request, 'article.html')
+
+
 
 class SupplierView(generic.TemplateView):
     template_name = 'supplier.html'
@@ -69,6 +92,7 @@ class SupplierView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SupplierView, self).get_context_data(**kwargs)
         context['empty_form'] = AddSupplier()
+        context['suppliers'] = Supplier.objects.all()
         return context
 
     def post(self, request):
@@ -164,24 +188,6 @@ class MatrixListView(generic.ListView):
                 raise Http404("Gibts nicht1")
             return HttpResponseRedirect(reverse('getmatrix'))
 
-      #  elif 'search_term' in request.POST:
-       #     form = SearchForm(request.POST)
-        #    if form.is_valid():
-         #       searchfield = form.cleaned_data.get('search_term')
-          #      formx = SearchForm()
-           #     matches = Supplier.objects.get(name__icontains=searchfield)
-            #    details = Detail.objects.all()
-             #   articles = Article.objects.all()
-
-              #  context = {'details': details,
-              #            'searchfield': searchfield,
-               #           'articles': articles,
-                #           'matches': matches,
-                 #          'formx': formx}
-               # return render(request, self.template_name, context)
-           # else:
-            #    raise Http404("Gibts nicht2")
-
         elif 'AddArticleToSupp' in request.POST:
             form1 = AddArticleToSuppForm(request.POST)#Detail
             form2 = AddDetailPrice(request.POST)       #Preis
@@ -197,11 +203,6 @@ class MatrixListView(generic.ListView):
                 details = Detail.objects.all()
                 articles = Article.objects.all()
 
-
-
-               # form.cleaned_data.get('price')
-                #setprice = Detailprice(price=form.cleaned_data.get('id'))
-                #setprice.save()
 
                 context = {'details': details,
                             'articles': articles,

@@ -26,11 +26,6 @@
 <div class="container">
 <table class="table">
     <thead>
-        <h1>
-            {{new_detail}}
-            {{new_price.price}}
-        </h1>
-
             <form class="form-inline my-2 my-lg-0" action="/getmatrix/" method="post">
                 {%csrf_token%}
                 {{formy.as_p}}

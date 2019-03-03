@@ -24,14 +24,41 @@
     </ul>
   </div>
 </nav>
-    <div class="container">
 
-        <form class="form-inline my-2 my-lg-0" action="/supplier/" method="post">
-            {%csrf_token%}
-                {{empty_form}}
-                    <button type="submit" class="btn btn-success" name= "save" value="{{basket.id}}">
-                        <span class="glyphicon glyphicon-plus"></span> save
-                    </button>
-                </form>
-    </div>
+<div class="container">
+    <form class="form-inline my-2 my-lg-0" action="/supplier/" method="post">
+        {%csrf_token%}
+        {{empty_form}}
+        <button type="submit" class="btn btn-success" name= "save" value="{{basket.id}}">
+            <span class="glyphicon glyphicon-plus"></span> save
+        </button>
+    </form>
+</div>
+
+<div class="container">
+<h1> Artikelübersicht</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Artikelname</th>
+        <th>Lagerplatz</th>
+     </tr>
+    </thead>
+    <tbody>
+    {% for article in articles %}
+    <tr>
+        <td>{{article.label}}</td>
+        <td>{{article.sensor_no}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+
+
+</table>
+
+
 </body>

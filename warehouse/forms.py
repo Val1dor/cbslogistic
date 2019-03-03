@@ -44,6 +44,13 @@ class AddArticle(forms.ModelForm):
         model = Article
         fields = ('label', 'sensor_no', 'image')
 
+        def __init__(self, *args, **kwargs):#Geht noch nicht
+            initial = kwargs.get('initial', {})
+            initial['label'] = 'Test'
+            initial['sensor_no'] = 11
+            kwargs['initial'] = initial
+            super(AddArticle, self).__init__(*args, **kwargs)
+
 class AddSupplier(forms.ModelForm):
     class Meta:
         model = Supplier

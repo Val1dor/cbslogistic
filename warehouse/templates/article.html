@@ -34,4 +34,40 @@
                     </button>
         </form>
 </div>
+
+<div class="container">
+<h1> Artikelübersicht</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Artikelname</th>
+        <th>Lagerplatz</th>
+        <th>Bild</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for article in articles %}
+    <tr>
+        <td>{{article.label}}</td>
+        <td>{{article.sensor_no}}</td>
+        <td>
+            {% if article.image %}
+                <img src="{{article.image.url}}" width="120">
+            {% endif %}
+        </td>
+        <td>
+        <form action="/editarticle/" method="post">
+        {%csrf_token%}
+            <button type="submit" class="btn btn-warning btn-xs" name="edit" value="{{article.id}}">
+                <span class="glyphicon glyphicon-pencil"></span> edit
+            </button>
+        </form>
+
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+</div>
 </body>
