@@ -9,13 +9,12 @@
 </head>
 <body>
 <div class="container">
-    <h1>{{article_edit.label}}</h1>
-<form class="form-inline my-2 my-lg-0" action="/editarticle/" method="post" enctype="multipart/form-data">
-    {%csrf_token%}
-    {{article_form}}
-    <button type="submit" class="btn btn-success btn-xs" name="savechanges" value="{{article_edit.id}}">
-        <span class="glyphicon glyphicon-pencil"></span> SAVE
-    </button>
+
+    ID: Detail{{instance2.price}}
+    <br>
+    ID: Detailprice{{instance1.id}}
+    <br>
+    Price: {{instance3.price}}
 </div>
 </body>
 </html>

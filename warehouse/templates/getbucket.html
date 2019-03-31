@@ -52,7 +52,7 @@
                 {% endif %}
             </td>
             <td>
-                {{basket.detail.price}}
+                {{basket.detail.price.price}}
             </td>
                 <form class="form-inline my-2 my-lg-0" action="/getbucket/" method="post">
                     {%csrf_token%}
@@ -101,13 +101,13 @@
                 {{basket.detail.order_min}}
             </td>
             <td>
-                {{basket.detail.price}} €
+                {{basket.detail.price.price}} €
             </td>
             <td>
                 {{basket.quantity}}
             </td>
             <td>
-                {% widthratio basket.quantity 1 basket.detail.price%} €
+                {% widthratio basket.quantity 1 basket.detail.price.price%}
             </td>
             <td>
                 <form action="/getbucket/" method="post">

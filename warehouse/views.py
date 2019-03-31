@@ -3,11 +3,11 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from .models import Article, Supplier, Detail, Orderbasket, Orders, Suppliercontract, Detailprice
+from .models import Article, Supplier, Detail, Orderbasket, Orders, Address
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import SearchForm, AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder, AddDetailPrice
+from .forms import AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder, AddDetailPrice, AddAddress, Detailprice
 
 
 class InqueryView(generic.TemplateView):
@@ -70,8 +70,7 @@ class EditArticleView(generic.TemplateView):
     def post(self, request):
         if 'edit' in request.POST:
             article_edit = Article.objects.get(id=request.POST['edit'])
-            article_form = AddArticle()
-
+            article_form = AddArticle(initial={'label': article_edit.label, 'sensor_no': article_edit.sensor_no, 'image': article_edit.image})
 
             return render(request, 'editarticle.html', {'article_edit': article_edit,
                                                         'article_form': article_form})
@@ -103,6 +102,27 @@ class SupplierView(generic.TemplateView):
 
             return HttpResponseRedirect(reverse('getstatus'))
 
+class EditSupplierView(generic.TemplateView):
+    template_name = 'editsupplier.html'
+
+    def post(self, request):
+        if 'edit' in request.POST:
+            supplier_edit = Supplier.objects.get(id=request.POST['edit'])
+            supplier_form = AddSupplier(initial={'name': supplier_edit.name,
+                                                'shipment_cost': supplier_edit.shipment_cost,
+                                                'order_min_value': supplier_edit.order_min_value})
+
+            return render(request, 'editsupplier.html', {'supplier_edit': supplier_edit,
+                                                        'supplier_form': supplier_form})
+
+        if 'savechanges' in request.POST:
+            instance = Supplier.objects.get(id=request.POST['savechanges'])
+            form_edit = AddSupplier(request.POST or None,request.FILES, instance=instance)
+            if form_edit.is_valid():
+                form_edit.save()
+
+            return render(request, 'article.html')
+
 class OrderView(generic.TemplateView):
     template_name = 'order.html'
 
@@ -131,7 +151,7 @@ class ArticleListView(generic.ListView):
         context = super(ArticleListView, self).get_context_data(**kwargs)
         context['empty_articles'] = Article.objects.filter(sensor_status=True)
         context['all_supplier'] = Supplier.objects.all()
-        context['details'] = Detail.objects.filter(article__sensor_status=True)
+        context['details'] = Detail.objects.filter(article__sensor_status=True, status='True')
         context['baskets'] = Orderbasket.objects.filter(ordered='False').order_by('detail__supplier')
 
         return context
@@ -166,6 +186,23 @@ class ArticleListView(generic.ListView):
                                                       'baskets': baskets})
 
 
+class AddressView(generic.TemplateView):
+    template_name = 'address.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddressView, self).get_context_data(**kwargs)
+        context['empty_form'] = AddAddress()
+        context['addresses'] = Address.objects.all()
+        return context
+
+    def post(self, request):
+        if 'save' in request.POST:
+            form = AddAddress(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+
+            return HttpResponseRedirect(reverse('getstatus'))
+
 
 class MatrixListView(generic.ListView):
     template_name = 'getmatrix.html'
@@ -174,7 +211,7 @@ class MatrixListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(MatrixListView, self).get_context_data(**kwargs)
-        context['details'] = Detail.objects.all()
+        context['details'] = Detail.objects.all()#filter(status='True')
         context['formy'] = AddArticleToSuppForm()
         context['formx'] = AddDetailPrice()
         return context
@@ -183,7 +220,17 @@ class MatrixListView(generic.ListView):
         if 'sub' in request.POST:
             try:
                 sub = Detail.objects.get(id=request.POST['sub'])
-                sub.delete()
+                sub.status = 'False'
+                sub.save()
+            except Detail.DoesNotExist:
+                raise Http404("Gibts nicht1")
+            return HttpResponseRedirect(reverse('getmatrix'))
+
+        if 'activate' in request.POST:
+            try:
+                sub = Detail.objects.get(id=request.POST['activate'])
+                sub.status = 'True'
+                sub.save()
             except Detail.DoesNotExist:
                 raise Http404("Gibts nicht1")
             return HttpResponseRedirect(reverse('getmatrix'))
@@ -214,6 +261,44 @@ class MatrixListView(generic.ListView):
 
             else:
                 raise Http404("Gibts nicht2ee")
+
+
+class EditMatrixView(generic.TemplateView):
+    template_name = 'editmatrix.html'
+
+    def post(self, request):
+        if 'edit' in request.POST:
+            matrix_edit = Detail.objects.get(id=request.POST['edit'])
+            #fields = ('article', 'supplier', 'shipment_cost', 'order_min')
+            price_form = AddDetailPrice(initial={'price': matrix_edit.price.price})
+            matrix_form = AddArticleToSuppForm(initial={'article': matrix_edit.article.label,
+                                                'supplier': matrix_edit.supplier.name,
+                                                'shipment_cost': matrix_edit.shipment_cost,
+                                                'order_min': matrix_edit.order_min})
+
+            return render(request, 'editmatrix.html', {'matrix_edit': matrix_edit,
+                                                        'price_form': price_form,
+                                                        'matrix_form': matrix_form})
+
+        if 'savechanges' in request.POST:
+            instance1 = Detail.objects.get(id=request.POST['savechanges'])
+            instance2 = Detailprice.objects.get(id=request.POST['price'])
+            instance3 = Detailprice.objects.get(id=2)
+
+            form_matrix = AddArticleToSuppForm(request.POST or None, request.FILES, instance=instance1)
+            form_price = AddDetailPrice(request.POST or None,request.FILES, instance=instance2)
+
+            if form_price.is_valid() and form_matrix.is_valid():
+                new_detail = form_matrix.save(commit=False)
+                new_price = form_price.save()
+                new_detail.price = new_price
+                new_detail.save()
+                #form_price.save()
+                #form_matrix.save()
+
+            return render(request, 'getstatus.html') #, {'instance2': instance2,
+                                                #'instance1': instance1,
+                                                #'instance3': instance3})
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'
@@ -280,7 +365,8 @@ class BucketListView(generic.ListView):
                                                       'supplier': supplier})
 
 
-
+class TestView(generic.TemplateView):
+    template_name = 'test.html'
 
 
 

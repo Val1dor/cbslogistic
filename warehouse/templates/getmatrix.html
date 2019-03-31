@@ -47,6 +47,7 @@
             <th>Sensornummer</th>
             <th>aktuelle Lieferanten</th>
             <th>Preis</th>
+            <th>Bearbeiten</th>
     </tr>
 <!--
     {% for article in articles %}
@@ -76,12 +77,26 @@
         <td>
             <form action="/getmatrix/" method="post">
                 {%csrf_token%}
+                {%if detail.status%}
                 <button type="submit" class="btn btn-danger" name="sub" value="{{detail.id}}">
                     <span class="glyphicon glyphicon-minus"></span> {{detail.supplier}}
                 </button>
+                {% else %}
+                <button type="submit" class="btn btn-success" name="activate" value="{{detail.id}}">
+                    <span class="glyphicon glyphicon-alert"></span> {{detail.supplier}} "aktiv setzen"
+                </button>
+                {% endif %}
                 <td>{{detail.price.price}}</td>
             </form>
 
+        </td>
+        <td>
+            <form action="/editmatrix/" method="post">
+            {%csrf_token%}
+                <button type="submit" class="btn btn-warning btn-xs" name="edit" value="{{detail.id}}">
+                    <span class="glyphicon glyphicon-pencil"></span> edit
+                </button>
+            </form>
         </td>
     </tr>
     {% endfor %}

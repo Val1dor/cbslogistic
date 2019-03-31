@@ -74,6 +74,7 @@ class Detail(models.Model):
     order_min = models.IntegerField(default=0)
     price = models.ForeignKey(Detailprice, on_delete=models.CASCADE)
     shipment_cost = models.IntegerField(default=0)
+    status = models.BooleanField(default=True)
     def __str__(self):
         return str(self.article) + str(': ____added to____: ') + str(self.supplier)
 

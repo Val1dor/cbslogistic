@@ -36,19 +36,31 @@
 </div>
 
 <div class="container">
-<h1> Artikelübersicht</h1>
+<h1> Lieferantenübersicht</h1>
 <table class="table">
     <thead>
     <tr>
-        <th>Artikelname</th>
-        <th>Lagerplatz</th>
+        <th>Lieferant</th>
+        <th>Mindestbestellmenge</th>
+        <th>Lieferkosten</th>
+        <th>Bearbeiten</th>
      </tr>
     </thead>
     <tbody>
-    {% for article in articles %}
+    {% for supplier in suppliers %}
     <tr>
-        <td>{{article.label}}</td>
-        <td>{{article.sensor_no}}</td>
+        <td>{{supplier.name}}</td>
+        <td>{{supplier.order_min_value}}</td>
+        <td>{{supplier.shipment_cost}}</td>
+        <td>
+        <form action="/editsupplier/" method="post">
+        {%csrf_token%}
+            <button type="submit" class="btn btn-warning btn-xs" name="edit" value="{{supplier.id}}">
+                <span class="glyphicon glyphicon-pencil"></span> edit
+            </button>
+        </form>
+
+        </td>
     </tr>
     {% endfor %}
     </tbody>

@@ -31,6 +31,11 @@ from warehouse.views import SupplierView
 from warehouse.views import InqueryView
 from warehouse.views import OrderView
 from warehouse.views import EditArticleView
+from warehouse.views import EditSupplierView
+from warehouse.views import EditMatrixView
+from warehouse.views import AddressView
+from warehouse.views import TestView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -44,6 +49,10 @@ urlpatterns = [
     path('supplier/', SupplierView.as_view(), name='supplier'),
     path('inquery/', InqueryView.as_view(), name='inquery'),
     path('order/', OrderView.as_view(), name='order'),
-    path('editarticle/', EditArticleView.as_view(), name='editarticle')
+    path('editarticle/', EditArticleView.as_view(), name='editarticle'),
+    path('editsupplier/', EditSupplierView.as_view(), name='editsupplier'),
+    path('editmatrix/', EditMatrixView.as_view(), name='editsupplier'),
+    path('address/', AddressView.as_view(), name='editsupplier'),
+    path('test/', TestView.as_view(), name='test')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
