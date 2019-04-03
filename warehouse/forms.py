@@ -7,18 +7,18 @@ class AddArticleToSuppForm(forms.ModelForm):
         fields = ('article', 'supplier', 'shipment_cost', 'order_min', 'price')
         widgets = {'price': forms.HiddenInput()}
 
-    #def save(self, commit=True, *args, **kwargs):
-#
- #       article = self.cleaned_data.get('article')
-  #      supplier = self.cleaned_data.get('supplier')
+    def save(self, commit=True, *args, **kwargs):
 
-   #     try:
-    #        query = Detail.objects.get(article__label=article, supplier__name=supplier)
-     #   except Detail.DoesNotExist:
-      #      m = super(AddArticleToSuppForm, self).save(commit=False, *args, **kwargs)
-       #     if commit:
-        #        m.save()
-         #   return m
+        article = self.cleaned_data.get('article')
+        supplier = self.cleaned_data.get('supplier')
+
+        try:
+            query = Detail.objects.get(article__label=article, supplier__name=supplier)
+        except Detail.DoesNotExist:
+            m = super(AddArticleToSuppForm, self).save(commit=False, *args, **kwargs)
+            if commit:
+                m.save()
+            return m
 
 class AddDetailPrice(forms.ModelForm):
     class Meta:
