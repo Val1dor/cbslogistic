@@ -236,10 +236,11 @@ class MatrixListView(generic.ListView):
             return HttpResponseRedirect(reverse('getmatrix'))
 
         elif 'AddArticleToSupp' in request.POST:
-            form1 = AddArticleToSuppForm(request.POST)#Detail
+            form1 = AddArticleToSuppForm(request.POST)#Detail aktuell nicht VALID
             form2 = AddDetailPrice(request.POST)       #Preis
 
             if form1.is_valid() and form2.is_valid():
+
                 new_detail = form1.save(commit=False)
                 new_price = form2.save()
                 new_detail.price = (new_price)
@@ -270,7 +271,7 @@ class EditMatrixView(generic.TemplateView):
         if 'edit' in request.POST:
             matrix_edit = Detail.objects.get(id=request.POST['edit'])
             #fields = ('article', 'supplier', 'shipment_cost', 'order_min')
-            price_form = AddDetailPrice(initial={'price': matrix_edit.price.price})#ICH HAB HIER FALSCHE SACHEN!!!
+            price_form = AddDetailPrice()#initial={'price': matrix_edit.price.price})#ICH HAB HIER FALSCHE SACHEN!!!
             matrix_form = AddArticleToSuppForm(initial={'article': matrix_edit.article.label,
                                                 'supplier': matrix_edit.supplier.name,
                                                 'shipment_cost': matrix_edit.shipment_cost,
@@ -282,26 +283,25 @@ class EditMatrixView(generic.TemplateView):
 
         if 'savechanges' in request.POST:
             instance1 = Detail.objects.get(id=request.POST['savechanges'])
-            instance2 = Detailprice.objects.get(id=request.POST['price'])
-            instance3 = Detailprice.objects.get(id=2)
+            instance2 = Detailprice.objects.get(id=request.POST['detailprice']) #hier steht die richtige zahl
 
-            form_matrix = AddArticleToSuppForm(request.POST or None, request.FILES, instance=instance1)
-            form_price = AddDetailPrice(request.POST)# or None,request.FILES), instance=instance2)
+            #form_matrix = AddArticleToSuppForm(request.POST or None, instance=instance1) #request.FILES dazwischen
+            form_price = AddDetailPrice(request.POST or None)#, instance=instance2)
 
 
-            #if form_price.is_valid() and form_matrix.is_valid():
-                #new_detail = form_matrix.save(commit=False)
+            if form_price.is_valid():# and form_matrix.is_valid():
                 new_price = form_price.save()
-                #new_detail.price = new_price
-                #new_detail.save()
-                #form_price.save()
-                #form_matrix.save()
+                instance1.price = (new_price)
+                instance1.save()
 
-                return render(request, 'test.html', {'instance2': instance2,
-                                                'instance1': instance1,
-                                                'instance3': instance3,
-                                                #'new_detail': new_detail,
-                                                'new_price': new_price})
+                return render(request, 'test.html', {#'instance2': instance2,
+                                                    'instance1': instance1,
+                                                    #'new_detail': new_detail,
+                                                    #'new_price': new_price
+                                                     })
+
+            else:
+                raise Http404("Gibts nicht2ee")
 
 class BucketListView(generic.ListView):
     template_name = 'getbucket.html'

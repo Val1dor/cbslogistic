@@ -64,6 +64,7 @@ class Article(models.Model):
 
 class Detailprice(models.Model):
     id = models.AutoField(primary_key=True)
+    #detail = models.ForeignKey(Detail, on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
     date = models.DateTimeField(default=datetime.now)
 

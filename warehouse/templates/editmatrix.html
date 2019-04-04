@@ -10,14 +10,17 @@
 <body>
 <div class="container">
     <h1>{{matrix_edit.article.label}} von {{matrix_edit.supplier.name}} </h1>
-<form class="form-inline my-2 my-lg-0" action="/editmatrix/" method="post" enctype="multipart/form-data">
+<form class="form-inline my-2 my-lg-0" action="/editmatrix/" method="post"> <!--enctype="multipart/form-data">-->
     {%csrf_token%}
-    {{matrix_form}}
-    {{price_form}}
-    <input type="hidden" name="price" value="{{matrix_edit.price.id}}" />
+   <!-- {{matrix_form.as_p}}-->
+
+
+    <input type="hidden" name="detailprice" value="{{matrix_edit.price.id}}" />
+    {{price_form.as_p}}
     <button type="submit" class="btn btn-success btn-xs" name="savechanges" value="{{matrix_edit.id}}">
         <span class="glyphicon glyphicon-pencil"></span> SAVE
     </button>
+</form>
 </div>
 </body>
 </html>

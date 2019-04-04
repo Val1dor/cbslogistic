@@ -4,7 +4,7 @@ from .models import Detail, Article, Supplier, Orderbasket, Orders, Detailprice,
 class AddArticleToSuppForm(forms.ModelForm):
     class Meta:
         model = Detail
-        fields = ('article', 'supplier', 'shipment_cost', 'order_min', 'price')
+        fields = ('article', 'supplier', 'shipment_cost', 'order_min')#, 'price')
         widgets = {'price': forms.HiddenInput()}
 
     def save(self, commit=True, *args, **kwargs):
@@ -14,6 +14,7 @@ class AddArticleToSuppForm(forms.ModelForm):
 
         try:
             query = Detail.objects.get(article__label=article, supplier__name=supplier)
+            return query
         except Detail.DoesNotExist:
             m = super(AddArticleToSuppForm, self).save(commit=False, *args, **kwargs)
             if commit:
