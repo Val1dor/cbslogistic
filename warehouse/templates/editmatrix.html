@@ -5,22 +5,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <meta charset="UTF-8">
-    <title>{{matrix_edit.label}}</title>
+    <title>{{detailprices.detail.article.label}}</title>
 </head>
 <body>
 <div class="container">
-    <h1>{{matrix_edit.article.label}} von {{matrix_edit.supplier.name}} </h1>
+    <h1>{{detailprices.detail.article.label}} von {{detailprices.detail.supplier.name}} </h1>
 <form class="form-inline my-2 my-lg-0" action="/editmatrix/" method="post"> <!--enctype="multipart/form-data">-->
     {%csrf_token%}
    <!-- {{matrix_form.as_p}}-->
 
 
-    <input type="hidden" name="detailprice" value="{{matrix_edit.price.id}}" />
+    <input type="hidden" name="detailprice" value="{{detailprices.detail.price.id}}" />
     {{price_form.as_p}}
-    <button type="submit" class="btn btn-success btn-xs" name="savechanges" value="{{matrix_edit.id}}">
+    <button type="submit" class="btn btn-success btn-xs" name="savechanges" value="{{detailprices.id}}">
         <span class="glyphicon glyphicon-pencil"></span> SAVE
     </button>
 </form>
+
+<div class="container">
+<table class="table">
+    <thead>
+    <tr>
+        <th>Preis</th>
+        <th>Datum</th>
+    </tr>
+           {% for price in oldprices %}
+    <tr>
+        <td>
+            {{price.price.price}}
+        </td>
+
+        <td>
+            {{price.price.date}}
+        </td>
+        {% endfor %}
+    </tr>
+
+
 </div>
 </body>
 </html>

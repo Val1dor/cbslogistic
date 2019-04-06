@@ -51,26 +51,6 @@
             <th>Bearbeiten</th>
     </tr>
 <!--
-    {% for article in articles %}
-    <tr>
-        <td>{{article.label}}</td>
-        <td>{{article.sensor_no}}</td>
-        <td>
-            <form action="/getmatrix/" method="post">
-                {%csrf_token%}
-                    {% for detail in details %}
-                        {% if detail.article == article %}
-                            <button type="submit" class="btn btn-danger" name="sub" value="{{detail.id}}">
-                                <span class="glyphicon glyphicon-minus"></span> {{detail.supplier}}
-                            </button>
-                            <td>{{detail.price}}</td>
-                        {% endif %}
-                    {% endfor %}
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
--->
     {% for detail in details%}
     <tr>
         <td>{{detail.article.label}}</td>
@@ -101,6 +81,38 @@
         </td>
     </tr>
     {% endfor %}
+-->
+    {% for detailprice in detailprices%}
+    <tr>
+        <td>{{detailprice.detail.article.label}}</td>
+        <td>{{detailprice.detail.article.sensor_no}}</td>
+        <td>
+            <form action="/getmatrix/" method="post">
+                {%csrf_token%}
+                {%if detailprice.detail.status%}
+                <button type="submit" class="btn btn-danger" name="sub" value="{{detailprice.detail.id}}">
+                    <span class="glyphicon glyphicon-minus"></span> {{detailprice.detail.supplier}}
+                </button>
+                {% else %}
+                <button type="submit" class="btn btn-success" name="activate" value="{{detailprice.detail.id}}">
+                    <span class="glyphicon glyphicon-alert"></span> {{detailprice.detail.supplier}} "aktiv setzen"
+                </button>
+                {% endif %}
+                <td>{{detailprice.price.price}}</td>
+            </form>
+
+        </td>
+        <td>
+            <form action="/editmatrix/" method="post">
+            {%csrf_token%}
+                <button type="submit" class="btn btn-warning btn-xs" name="edit" value="{{detailprice.id}}">
+                    <span class="glyphicon glyphicon-pencil"></span> edit
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+
 
 
 

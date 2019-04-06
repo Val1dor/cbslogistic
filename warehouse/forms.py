@@ -1,5 +1,5 @@
 from django import forms
-from .models import Detail, Article, Supplier, Orderbasket, Orders, Detailprice, Address
+from .models import Detail, Article, Supplier, Orderbasket, Orders, Address, Pricelist, Detailprice
 
 class AddArticleToSuppForm(forms.ModelForm):
     class Meta:
@@ -21,10 +21,15 @@ class AddArticleToSuppForm(forms.ModelForm):
                 m.save()
             return m
 
+class AddPricelist(forms.ModelForm):
+    class Meta:
+        model = Pricelist
+        fields = ('price',)
+
 class AddDetailPrice(forms.ModelForm):
     class Meta:
         model = Detailprice
-        fields = ('price',)
+        fields = ('detail', 'price')
 
 
 class AddArticleToBasket(forms.ModelForm):

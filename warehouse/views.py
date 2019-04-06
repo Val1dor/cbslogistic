@@ -3,11 +3,11 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from .models import Article, Supplier, Detail, Orderbasket, Orders, Address
+from .models import Article, Supplier, Detail, Orderbasket, Orders, Address, Detailprice
 from django.shortcuts import render
 from datetime import datetime
 from django.views import generic
-from .forms import AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder, AddDetailPrice, AddAddress, Detailprice
+from .forms import AddArticleToSuppForm, AddArticleToBasket, AddArticle, AddSupplier, BucketToOrder, AddPricelist, AddAddress, Pricelist
 
 
 class InqueryView(generic.TemplateView):
@@ -211,9 +211,9 @@ class MatrixListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(MatrixListView, self).get_context_data(**kwargs)
-        context['details'] = Detail.objects.all()#filter(status='True')
+        context['detailprices'] = Detailprice.objects.filter(status='True')
         context['formy'] = AddArticleToSuppForm()
-        context['formx'] = AddDetailPrice()
+        context['formx'] = AddPricelist()
         return context
 
     def post(self, request):
@@ -229,6 +229,7 @@ class MatrixListView(generic.ListView):
         if 'activate' in request.POST:
             try:
                 sub = Detail.objects.get(id=request.POST['activate'])
+
                 sub.status = 'True'
                 sub.save()
             except Detail.DoesNotExist:
@@ -237,27 +238,29 @@ class MatrixListView(generic.ListView):
 
         elif 'AddArticleToSupp' in request.POST:
             form1 = AddArticleToSuppForm(request.POST)#Detail aktuell nicht VALID
-            form2 = AddDetailPrice(request.POST)       #Preis
+            form2 = AddPricelist(request.POST)       #Preis
 
             if form1.is_valid() and form2.is_valid():
 
-                new_detail = form1.save(commit=False)
-                new_price = form2.save()
-                new_detail.price = (new_price)
-                new_detail.save()
-
                 formy = AddArticleToSuppForm()
-                formx = AddDetailPrice()
-                details = Detail.objects.all()
-                articles = Article.objects.all()
+                formx = AddPricelist()
+                detailprices = Detailprice.objects.all()
 
+                #setze altes inaktiv
 
-                context = {'details': details,
-                            'articles': articles,
-                            'formy': formy,
-                            'formx': formx,
-                            'new_detail': new_detail,
-                            'new_price': new_price}
+                detail = form1.save()
+                pricelist = form2.save()
+                detail_price = Detailprice()
+                detail_price.detail = detail
+                detail_price.price = pricelist
+                detail_price.save()
+
+                context = {#'details': details,
+                           #'articles': articles,
+                           'detailprices': detailprices,
+                           'formy': formy,
+                           'formx': formx}
+
                 return render(request, self.template_name, context)
 
             else:
@@ -269,36 +272,41 @@ class EditMatrixView(generic.TemplateView):
 
     def post(self, request):
         if 'edit' in request.POST:
-            matrix_edit = Detail.objects.get(id=request.POST['edit'])
-            #fields = ('article', 'supplier', 'shipment_cost', 'order_min')
-            price_form = AddDetailPrice()#initial={'price': matrix_edit.price.price})#ICH HAB HIER FALSCHE SACHEN!!!
-            matrix_form = AddArticleToSuppForm(initial={'article': matrix_edit.article.label,
-                                                'supplier': matrix_edit.supplier.name,
-                                                'shipment_cost': matrix_edit.shipment_cost,
-                                                'order_min': matrix_edit.order_min})
+            detailprices = Detailprice.objects.get(id=request.POST['edit'])
+            oldprices = Detailprice.objects.filter(detail=detailprices.detail)
 
-            return render(request, 'editmatrix.html', {'matrix_edit': matrix_edit,
-                                                        'price_form': price_form,
-                                                        'matrix_form': matrix_form})
+            price_form = AddPricelist(initial={'price': detailprices.price.price})#ICH HAB HIER FALSCHE SACHEN!!!
+            matrix_form = AddArticleToSuppForm(initial={'article': detailprices.detail.article.label,
+                                                'supplier': detailprices.detail.supplier.name,
+                                                'shipment_cost': detailprices.detail.shipment_cost,
+                                                'order_min': detailprices.detail.order_min})
+
+            return render(request, 'editmatrix.html', {'detailprices': detailprices,
+                                                       'oldprices': oldprices,
+                                                       'price_form': price_form,
+                                                       'matrix_form': matrix_form})
 
         if 'savechanges' in request.POST:
-            instance1 = Detail.objects.get(id=request.POST['savechanges'])
-            instance2 = Detailprice.objects.get(id=request.POST['detailprice']) #hier steht die richtige zahl
-
+            instance1 = Detailprice.objects.get(id=request.POST['savechanges'])
+            #instance2 = Detailprice.objects.get(id=request.POST['detailprice']) #hier steht die richtige zahl
             #form_matrix = AddArticleToSuppForm(request.POST or None, instance=instance1) #request.FILES dazwischen
-            form_price = AddDetailPrice(request.POST or None)#, instance=instance2)
+            form_price = AddPricelist(request.POST or None)#, instance=instance2)
 
 
             if form_price.is_valid():# and form_matrix.is_valid():
-                new_price = form_price.save()
-                instance1.price = (new_price)
+                instance1.status = 'False'
                 instance1.save()
+                new_price = form_price.save()
+                instance2 = Detailprice()
+                instance2.detail = instance1.detail
+                instance2.price = (new_price)
+                instance2.save()
 
-                return render(request, 'test.html', {#'instance2': instance2,
-                                                    'instance1': instance1,
+                return render(request, 'getstatus.html')# {#'instance2': instance2,
+                                                    #'instance1': instance1,
                                                     #'new_detail': new_detail,
                                                     #'new_price': new_price
-                                                     })
+                                                  #   })
 
             else:
                 raise Http404("Gibts nicht2ee")

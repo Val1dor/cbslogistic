@@ -61,10 +61,8 @@ class Article(models.Model):
     def get_image_path(instance, filename):
         return os.path.join('photos', str(instance.id), filename)
 
-
-class Detailprice(models.Model):
+class Pricelist(models.Model):
     id = models.AutoField(primary_key=True)
-    #detail = models.ForeignKey(Detail, on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
     date = models.DateTimeField(default=datetime.now)
 
@@ -73,12 +71,17 @@ class Detail(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     order_min = models.IntegerField(default=0)
-    price = models.ForeignKey(Detailprice, on_delete=models.CASCADE)
+    # = models.ForeignKey(Pricelist, on_delete=models.CASCADE)
     shipment_cost = models.IntegerField(default=0)
     status = models.BooleanField(default=True)
     def __str__(self):
         return str(self.article) + str(': ____added to____: ') + str(self.supplier)
 
+class Detailprice(models.Model):
+    id = models.AutoField(primary_key=True)
+    detail = models.ForeignKey(Detail, on_delete=models.CASCADE)
+    price = models.ForeignKey(Pricelist, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
 
 class Orderbasket(models.Model):
     id = models.AutoField(primary_key=True)
